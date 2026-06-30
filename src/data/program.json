@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "name": "Full-Body 3x + Zone 2",
+    "phase": "Fat loss / recomposition",
+    "split": "full-body-3x-rotation",
+    "globalRir": [1, 2],
+    "defaultRestSec": 90,
+    "accessoryRestSec": 60,
+    "notes": "Fat loss is driven by the dietary deficit (handled in Ordo Corpus), not by this training. This program's job is muscle retention, insulin sensitivity, and adherence. Rotate A -> B -> C across the three lifting days each week. Order within a week is flexible; keep at least one day between identical sessions where possible."
+  },
+  "progression": {
+    "model": "double-progression",
+    "incrementUpperKg": 2.5,
+    "incrementLowerKg": 5,
+    "rule": "Start each exercise at a load where the bottom of the rep range is RIR 2. Each session, add reps toward the top of the range across all working sets. When all working sets hit the top of the range at RIR >= 1, increase load by the relevant increment next session and reset to the bottom of the range.",
+    "appBehavior": "On the Today screen, for each exercise show last session's load and reps per set, plus the computed target for today (same load + more reps, or the next load reset to range bottom once the top was cleared on all sets)."
+  },
+  "warmup": {
+    "cardioMin": 5,
+    "cardioNote": "Easy bike or incline walk, ramping gradually from very light. Never go cold into working weight.",
+    "rampSets": "On the first compound of the session, perform 2 ramp-up sets (~50% working load x5, ~75% x3) before working sets.",
+    "cooldownMin": 4,
+    "cooldownNote": "After the final working set, 3-5 min easy cardio to ramp down rather than stopping abruptly."
+  },
+  "constraints": {
+    "id": "heart-safe-v1",
+    "rules": [
+      "All working sets at RIR 1-2. Never train to failure.",
+      "No max singles and no prescribed work below 6 reps. Sub-6-rep loads force breath-holding (Valsalva) and the largest acute BP spikes.",
+      "Exhale through the hardest part of each rep. Do not hold the breath through a full rep.",
+      "Always complete the warm-up ramp and the cool-down ramp-down.",
+      "Zone 2 cardio is strictly steady-state. No intervals, no HIIT, no sudden intensity changes.",
+      "Log palpitations after each session. If palpitations are frequent, or there is dizziness or chest discomfort, stop and note it."
+    ]
+  },
+  "days": [
+    {
+      "id": "A",
+      "name": "Full Body A — Squat focus",
+      "type": "lifting",
+      "exercises": [
+        { "exerciseId": "back-squat", "sets": 3, "repRange": [6, 8] },
+        { "exerciseId": "bench-press", "sets": 3, "repRange": [6, 8] },
+        { "exerciseId": "seated-cable-row", "sets": 3, "repRange": [8, 10] },
+        { "exerciseId": "leg-curl", "sets": 2, "repRange": [10, 12] },
+        { "exerciseId": "lat-pulldown", "sets": 2, "repRange": [8, 10] },
+        { "exerciseId": "cable-crunch", "sets": 3, "repRange": [10, 15] }
+      ]
+    },
+    {
+      "id": "B",
+      "name": "Full Body B — Hinge focus",
+      "type": "lifting",
+      "exercises": [
+        { "exerciseId": "trap-bar-deadlift", "sets": 3, "repRange": [6, 8] },
+        { "exerciseId": "overhead-press", "sets": 3, "repRange": [6, 8] },
+        { "exerciseId": "assisted-pull-up", "sets": 3, "repRange": [6, 10] },
+        { "exerciseId": "leg-press", "sets": 2, "repRange": [10, 12] },
+        { "exerciseId": "incline-db-press", "sets": 2, "repRange": [8, 10] },
+        { "exerciseId": "hanging-knee-raise", "sets": 3, "repRange": [8, 12] }
+      ]
+    },
+    {
+      "id": "C",
+      "name": "Full Body C — Volume / mixed",
+      "type": "lifting",
+      "exercises": [
+        { "exerciseId": "leg-press", "sets": 3, "repRange": [8, 10] },
+        { "exerciseId": "incline-db-press", "sets": 3, "repRange": [8, 10] },
+        { "exerciseId": "chest-supported-row", "sets": 3, "repRange": [8, 10] },
+        { "exerciseId": "hip-thrust", "sets": 2, "repRange": [10, 12] },
+        { "exerciseId": "lateral-raise", "sets": 2, "repRange": [12, 15] },
+        { "exerciseId": "face-pull", "sets": 2, "repRange": [12, 15] }
+      ]
+    },
+    {
+      "id": "zone2",
+      "name": "Zone 2 Cardio",
+      "type": "cardio",
+      "durationMin": 35,
+      "targetHrPct": [60, 70],
+      "guidance": "Steady-state on a bike, incline treadmill walk, or elliptical. Drive it by perceived exertion: a pace where you could hold a conversation but would not want to. HR target is secondary — wrist HR reads noisily with ectopic beats, so trust breathing and conversational pace first. No spikes, no sprints."
+    }
+  ],
+  "survey": {
+    "fields": [
+      { "key": "perExercise", "type": "exercise-log", "description": "Per exercise: completed (bool), and per set the reps and load lifted (kg)." },
+      { "key": "sessionRpe", "type": "scale", "min": 1, "max": 10, "label": "Overall session difficulty" },
+      { "key": "energy", "type": "scale", "min": 1, "max": 5, "label": "Energy" },
+      { "key": "mood", "type": "scale", "min": 1, "max": 5, "label": "Mood" },
+      { "key": "palpitations", "type": "boolean", "label": "Noticed palpitations / skipped beats?" },
+      { "key": "palpitationsNote", "type": "text", "label": "Palpitation note", "showIf": "palpitations == true" },
+      { "key": "painFlag", "type": "boolean", "label": "Any joint pain or tweak?" },
+      { "key": "painNote", "type": "text", "label": "Pain note", "showIf": "painFlag == true" },
+      { "key": "durationMin", "type": "number", "label": "Session duration (min)" },
+      { "key": "notes", "type": "text", "label": "Anything else" }
+    ]
+  }
+}

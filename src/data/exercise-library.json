@@ -1,0 +1,398 @@
+{
+  "schemaVersion": 1,
+  "exercises": [
+    {
+      "id": "back-squat",
+      "name": "Back Squat",
+      "pattern": "squat",
+      "equipment": "barbell",
+      "primaryMuscles": ["quadriceps", "glutes"],
+      "skill": "high",
+      "cues": [
+        "Brace the core before unracking and before each descent.",
+        "Controlled descent (~2s), knees tracking over toes.",
+        "Drive through the midfoot, hips and chest rise together."
+      ],
+      "heartSafe": [
+        "Stop at RIR 1-2. No max singles, no grinding reps.",
+        "Exhale through the sticking point on the way up. Do not hold the breath through a full rep (Valsalva spikes BP)."
+      ],
+      "substitutions": ["goblet-squat", "leg-press", "hack-squat"]
+    },
+    {
+      "id": "front-squat",
+      "name": "Front Squat",
+      "pattern": "squat",
+      "equipment": "barbell",
+      "primaryMuscles": ["quadriceps", "glutes", "core"],
+      "skill": "high",
+      "cues": [
+        "Elbows high, bar resting on front delts, not the hands.",
+        "Upright torso, controlled descent.",
+        "Drive up keeping elbows lifted."
+      ],
+      "heartSafe": [
+        "Stop at RIR 1-2.",
+        "Short, controlled exhale on the drive up. Avoid prolonged breath-hold."
+      ],
+      "substitutions": ["leg-press", "goblet-squat"]
+    },
+    {
+      "id": "leg-press",
+      "name": "Leg Press",
+      "pattern": "squat",
+      "equipment": "machine",
+      "primaryMuscles": ["quadriceps", "glutes"],
+      "skill": "low",
+      "cues": [
+        "Feet shoulder-width on the platform.",
+        "Lower under control until knees ~90 degrees, no lumbar rounding.",
+        "Do not lock knees hard at the top."
+      ],
+      "heartSafe": [
+        "Stop at RIR 1-2.",
+        "Steady breathing. This is a good machine option for precise, controlled load."
+      ],
+      "substitutions": ["back-squat", "hack-squat"]
+    },
+    {
+      "id": "romanian-deadlift",
+      "name": "Romanian Deadlift",
+      "pattern": "hinge",
+      "equipment": "barbell",
+      "primaryMuscles": ["hamstrings", "glutes", "lower-back"],
+      "skill": "high",
+      "cues": [
+        "Soft knees, hips travel back, bar stays close to the legs.",
+        "Lower until a hamstring stretch, neutral spine throughout.",
+        "Drive hips forward to stand, squeeze glutes at the top."
+      ],
+      "heartSafe": [
+        "Keep it in the 6-10 range. No heavy low-rep pulls.",
+        "Exhale on the way up. No breath-holding through the rep."
+      ],
+      "substitutions": ["trap-bar-deadlift", "hip-thrust", "leg-curl"]
+    },
+    {
+      "id": "trap-bar-deadlift",
+      "name": "Trap-Bar Deadlift",
+      "pattern": "hinge",
+      "equipment": "barbell",
+      "primaryMuscles": ["glutes", "hamstrings", "quadriceps"],
+      "skill": "medium",
+      "cues": [
+        "Stand inside the bar, grip the handles, chest up.",
+        "Push the floor away, hips and shoulders rise together.",
+        "More upright torso than a conventional pull — easier on the spine."
+      ],
+      "heartSafe": [
+        "Keep reps 6-8, RIR 2. No max attempts.",
+        "Brief exhale on the lift. Preferred over conventional deadlift for controlled, lower-spike loading."
+      ],
+      "substitutions": ["romanian-deadlift", "hip-thrust"]
+    },
+    {
+      "id": "hip-thrust",
+      "name": "Barbell Hip Thrust",
+      "pattern": "hinge",
+      "equipment": "barbell",
+      "primaryMuscles": ["glutes", "hamstrings"],
+      "skill": "medium",
+      "cues": [
+        "Upper back on the bench, bar over the hips (use a pad).",
+        "Drive hips up, full glute squeeze, ribs down.",
+        "Lower under control."
+      ],
+      "heartSafe": [
+        "Stop at RIR 1-2.",
+        "Exhale at the top of the drive. No breath-holding."
+      ],
+      "substitutions": ["romanian-deadlift", "leg-curl"]
+    },
+    {
+      "id": "bench-press",
+      "name": "Barbell Bench Press",
+      "pattern": "horizontal-push",
+      "equipment": "barbell",
+      "primaryMuscles": ["chest", "triceps", "front-delts"],
+      "skill": "high",
+      "cues": [
+        "Shoulder blades retracted and down, slight arch.",
+        "Bar to lower chest, elbows ~45 degrees from torso.",
+        "Press up and slightly back toward the rack."
+      ],
+      "heartSafe": [
+        "Use a spotter or stay 2 reps from failure. No grinding.",
+        "Exhale on the press. Do not hold the breath through the full rep."
+      ],
+      "substitutions": ["incline-db-press", "machine-chest-press"]
+    },
+    {
+      "id": "incline-bench",
+      "name": "Incline Barbell Bench Press",
+      "pattern": "horizontal-push",
+      "equipment": "barbell",
+      "primaryMuscles": ["upper-chest", "front-delts", "triceps"],
+      "skill": "high",
+      "cues": [
+        "Bench at ~30 degrees, shoulder blades set.",
+        "Bar to upper chest, controlled descent.",
+        "Press without flaring elbows excessively."
+      ],
+      "heartSafe": [
+        "Stay at RIR 1-2.",
+        "Exhale on the press."
+      ],
+      "substitutions": ["incline-db-press", "machine-chest-press"]
+    },
+    {
+      "id": "incline-db-press",
+      "name": "Incline Dumbbell Press",
+      "pattern": "horizontal-push",
+      "equipment": "dumbbell",
+      "primaryMuscles": ["upper-chest", "front-delts", "triceps"],
+      "skill": "medium",
+      "cues": [
+        "Bench ~30 degrees, dumbbells over upper chest.",
+        "Lower under control to a stretch, elbows ~45 degrees.",
+        "Press up and slightly together."
+      ],
+      "heartSafe": [
+        "Stop at RIR 1-2.",
+        "Exhale on the press."
+      ],
+      "substitutions": ["incline-bench", "machine-chest-press"]
+    },
+    {
+      "id": "overhead-press",
+      "name": "Overhead Press (Standing or Seated)",
+      "pattern": "vertical-push",
+      "equipment": "barbell",
+      "primaryMuscles": ["shoulders", "triceps", "upper-chest"],
+      "skill": "high",
+      "cues": [
+        "Bar on front delts, elbows slightly in front.",
+        "Brace, press overhead, push the head 'through' at lockout.",
+        "Seated variation reduces low-back load if needed."
+      ],
+      "heartSafe": [
+        "Overhead pressing raises BP more than most lifts. Keep it 6-8 reps, RIR 2, never to failure.",
+        "Controlled exhale on the press. No sustained breath-hold."
+      ],
+      "substitutions": ["machine-shoulder-press", "db-shoulder-press"]
+    },
+    {
+      "id": "lat-pulldown",
+      "name": "Lat Pulldown",
+      "pattern": "vertical-pull",
+      "equipment": "machine",
+      "primaryMuscles": ["lats", "biceps", "upper-back"],
+      "skill": "low",
+      "cues": [
+        "Slight lean back, chest up.",
+        "Pull the bar to the upper chest, drive elbows down.",
+        "Control the eccentric, full stretch at the top."
+      ],
+      "heartSafe": [
+        "Steady tempo, RIR 1-2.",
+        "Normal breathing throughout."
+      ],
+      "substitutions": ["pull-up", "assisted-pull-up"]
+    },
+    {
+      "id": "pull-up",
+      "name": "Pull-Up",
+      "pattern": "vertical-pull",
+      "equipment": "bodyweight",
+      "primaryMuscles": ["lats", "biceps", "upper-back"],
+      "skill": "medium",
+      "cues": [
+        "Full hang start, shoulders engaged.",
+        "Pull chest toward the bar, drive elbows down.",
+        "Control the descent to a full hang."
+      ],
+      "heartSafe": [
+        "Stop at RIR 1-2. Use assisted version to stay out of grinding territory.",
+        "Exhale on the pull."
+      ],
+      "substitutions": ["assisted-pull-up", "lat-pulldown"]
+    },
+    {
+      "id": "assisted-pull-up",
+      "name": "Assisted Pull-Up",
+      "pattern": "vertical-pull",
+      "equipment": "machine",
+      "primaryMuscles": ["lats", "biceps", "upper-back"],
+      "skill": "low",
+      "cues": [
+        "Set assistance so the last rep is RIR 1-2.",
+        "Full range: dead hang to chest near bar.",
+        "Controlled descent."
+      ],
+      "heartSafe": [
+        "Reduce assistance over time as a secondary progression.",
+        "Normal breathing."
+      ],
+      "substitutions": ["lat-pulldown", "pull-up"]
+    },
+    {
+      "id": "barbell-row",
+      "name": "Barbell Row (Chest-Supported preferred)",
+      "pattern": "horizontal-pull",
+      "equipment": "barbell",
+      "primaryMuscles": ["upper-back", "lats", "biceps"],
+      "skill": "high",
+      "cues": [
+        "Hinge with a neutral spine, or use a chest-supported bench to remove low-back load.",
+        "Row to the lower ribs, squeeze the shoulder blades.",
+        "Control the descent."
+      ],
+      "heartSafe": [
+        "Chest-supported variation preferred — removes the isometric low-back load and the breath-hold tendency.",
+        "Exhale on the row. RIR 1-2."
+      ],
+      "substitutions": ["seated-cable-row", "chest-supported-row"]
+    },
+    {
+      "id": "chest-supported-row",
+      "name": "Chest-Supported Row",
+      "pattern": "horizontal-pull",
+      "equipment": "machine",
+      "primaryMuscles": ["upper-back", "lats", "biceps"],
+      "skill": "low",
+      "cues": [
+        "Chest against the pad, full arm extension to start.",
+        "Row, driving elbows back, squeeze the upper back.",
+        "Control the return."
+      ],
+      "heartSafe": [
+        "Steady tempo, RIR 1-2.",
+        "Normal breathing — no spinal loading to manage."
+      ],
+      "substitutions": ["seated-cable-row", "barbell-row"]
+    },
+    {
+      "id": "seated-cable-row",
+      "name": "Seated Cable Row",
+      "pattern": "horizontal-pull",
+      "equipment": "machine",
+      "primaryMuscles": ["upper-back", "lats", "biceps"],
+      "skill": "low",
+      "cues": [
+        "Tall torso, slight backward lean only.",
+        "Pull to the navel, elbows close, squeeze.",
+        "Control the stretch forward."
+      ],
+      "heartSafe": [
+        "Steady tempo, RIR 1-2.",
+        "Normal breathing."
+      ],
+      "substitutions": ["chest-supported-row", "barbell-row"]
+    },
+    {
+      "id": "leg-curl",
+      "name": "Seated/Lying Leg Curl",
+      "pattern": "accessory-hamstring",
+      "equipment": "machine",
+      "primaryMuscles": ["hamstrings"],
+      "skill": "low",
+      "cues": [
+        "Pad just above the heels.",
+        "Curl fully, control the eccentric.",
+        "No hip lifting to cheat the rep."
+      ],
+      "heartSafe": ["Light accessory. Steady breathing, RIR 1."],
+      "substitutions": ["romanian-deadlift"]
+    },
+    {
+      "id": "lateral-raise",
+      "name": "Dumbbell Lateral Raise",
+      "pattern": "accessory-shoulder",
+      "equipment": "dumbbell",
+      "primaryMuscles": ["side-delts"],
+      "skill": "low",
+      "cues": [
+        "Slight elbow bend, lead with the elbows.",
+        "Raise to shoulder height, no shrugging.",
+        "Control the descent."
+      ],
+      "heartSafe": ["Light, high-rep accessory. Normal breathing."],
+      "substitutions": ["machine-lateral-raise"]
+    },
+    {
+      "id": "face-pull",
+      "name": "Cable Face Pull",
+      "pattern": "accessory-rear-delt",
+      "equipment": "cable",
+      "primaryMuscles": ["rear-delts", "upper-back"],
+      "skill": "low",
+      "cues": [
+        "Rope at face height, pull toward the forehead.",
+        "Elbows high, externally rotate at the end.",
+        "Control the return."
+      ],
+      "heartSafe": ["Light accessory, good for shoulder health. Normal breathing."],
+      "substitutions": ["rear-delt-fly"]
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Cable Crunch",
+      "pattern": "core",
+      "equipment": "cable",
+      "primaryMuscles": ["abs"],
+      "skill": "low",
+      "cues": [
+        "Kneel, rope behind the head.",
+        "Crunch by flexing the spine, hips stay fixed.",
+        "Control back to the start."
+      ],
+      "heartSafe": ["Exhale on the crunch. No breath-holding."],
+      "substitutions": ["hanging-knee-raise", "plank"]
+    },
+    {
+      "id": "hanging-knee-raise",
+      "name": "Hanging Knee Raise",
+      "pattern": "core",
+      "equipment": "bodyweight",
+      "primaryMuscles": ["abs", "hip-flexors"],
+      "skill": "medium",
+      "cues": [
+        "Dead hang, no swinging.",
+        "Raise knees toward the chest, posterior pelvic tilt.",
+        "Lower under control."
+      ],
+      "heartSafe": ["Controlled tempo, exhale on the raise."],
+      "substitutions": ["cable-crunch", "plank"]
+    },
+    {
+      "id": "pallof-press",
+      "name": "Pallof Press",
+      "pattern": "core",
+      "equipment": "cable",
+      "primaryMuscles": ["obliques", "core"],
+      "skill": "low",
+      "cues": [
+        "Stand side-on to a cable, press the handle straight out.",
+        "Resist rotation, ribs down.",
+        "Hold briefly, return."
+      ],
+      "heartSafe": ["Anti-rotation core work. Breathe steadily, do not hold the breath during the hold."],
+      "substitutions": ["plank"]
+    },
+    {
+      "id": "plank",
+      "name": "Plank",
+      "pattern": "core",
+      "equipment": "bodyweight",
+      "primaryMuscles": ["core"],
+      "skill": "low",
+      "cues": [
+        "Forearms under shoulders, straight line head to heels.",
+        "Brace, glutes tight, ribs down.",
+        "Hold for time."
+      ],
+      "heartSafe": ["Breathe steadily throughout the hold. Never hold the breath."],
+      "substitutions": ["pallof-press", "cable-crunch"]
+    }
+  ]
+}
