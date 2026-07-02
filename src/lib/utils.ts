@@ -20,8 +20,22 @@ export const formatShortDate = (iso: string): string => {
 
 export const todayISO = (): string => new Date().toISOString()
 
-export const todayDateOnly = (): string =>
-  new Date().toISOString().slice(0, 10)
+// Local-timezone calendar date (yyyy-mm-dd). Never use toISOString for calendar
+// logic — an evening session would land on the wrong day east of UTC.
+export const localDate = (d: Date = new Date()): string => {
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
+}
+
+export const todayDateOnly = (): string => localDate()
+
+export const addDays = (dateOnly: string, n: number): string => {
+  const [y, m, d] = dateOnly.split('-').map(Number)
+  const dt = new Date(y, m - 1, d + n)
+  return localDate(dt)
+}
 
 // Days between two ISO dates (absolute, whole days).
 export const daysBetween = (a: string, b: string): number => {

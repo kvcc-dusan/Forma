@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Dumbbell, Repeat2, Target } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
@@ -7,24 +7,11 @@ import { ExerciseGlyph } from '@/components/exercise-glyph'
 import { HeartSafeBlock } from '@/components/heart-safe-block'
 import { MetricPill, Tag } from '@/components/primitives'
 import { getExercise, resolveSubstitutions } from '@/lib/program'
-import { nextLiftingDay } from '@/lib/rotation'
-import { getSubs, setSub } from '@/lib/session-draft'
+import {
+  readLiveSession,
+  substituteInLiveSession,
+} from '@/lib/live-session'
 import { useSessions } from '@/hooks/useStore'
-import type { LiftingDay } from '@/lib/types'
-
-// Find which prescribed slot (by original exerciseId) currently resolves to the
-// given exercise on today's day, so a swap can target the right slot.
-const findSlot = (
-  day: LiftingDay,
-  subs: Record<string, string>,
-  exerciseId: string,
-): string | null => {
-  for (const dx of day.exercises) {
-    const effective = subs[dx.exerciseId] ?? dx.exerciseId
-    if (effective === exerciseId) return dx.exerciseId
-  }
-  return null
-}
 
 const titleCase = (s: string) =>
   s.charAt(0).toUpperCase() + s.slice(1).replace(/-/g, ' ')
@@ -35,10 +22,13 @@ export function ExerciseDetail() {
   const { sessions } = useSessions()
   const exercise = getExercise(id)
 
-  const day = useMemo(() => nextLiftingDay(sessions), [sessions])
-  const subs = getSubs(day.id)
-  const slot = exercise ? findSlot(day, subs, exercise.id) : null
-  const subOptions = exercise ? resolveSubstitutions(exercise.substitutions) : []
+  // Swapping is only meaningful inside an active session: find the live slot
+  // this exercise currently occupies (if any).
+  const [live] = useState(() => readLiveSession())
+  const liveSlot = live?.exercises.find((e) => e.exerciseId === id) ?? null
+  const subOptions = exercise
+    ? resolveSubstitutions(exercise.substitutions)
+    : []
 
   if (!exercise) {
     return (
@@ -52,32 +42,22 @@ export function ExerciseDetail() {
   }
 
   const swap = (substituteId: string) => {
-    if (!slot) return
-    setSub(day.id, slot, substituteId === slot ? null : substituteId)
-    navigate('/')
+    if (!live || !liveSlot) return
+    substituteInLiveSession(live, liveSlot.originalId, substituteId, sessions)
+    navigate('/train')
   }
 
   return (
     <AppShell hideNav>
-      <div className="relative">
-        <div className="flex h-44 items-center justify-center bg-gradient-to-br from-secondary to-card">
-          <ExerciseGlyph
-            equipment={exercise.equipment}
-            size="lg"
-            className="h-24 w-24 rounded-3xl"
-          />
+      <div className="flex flex-col gap-7">
+        <div className="flex items-center justify-between pt-1">
+          <BackButton />
+          <ExerciseGlyph equipment={exercise.equipment} size="md" />
         </div>
-        <div className="absolute inset-x-0 top-0 pt-1">
-          <BackButton variant="overlay" />
-        </div>
-      </div>
 
-      <div className="flex flex-col gap-7 pb-8 pt-5">
         <div>
-          <Tag tone="accent" className="capitalize">
-            {titleCase(exercise.pattern)}
-          </Tag>
-          <h1 className="text-display mt-2 text-balance text-[30px] font-semibold tracking-tight text-foreground">
+          <Tag tone="accent">{titleCase(exercise.pattern)}</Tag>
+          <h1 className="text-display mt-2.5 text-balance text-[30px] font-semibold tracking-tight text-foreground">
             {exercise.name}
           </h1>
         </div>
@@ -93,7 +73,11 @@ export function ExerciseDetail() {
             label="Kit"
             value={titleCase(exercise.equipment)}
           />
-          <MetricPill icon={Repeat2} label="Skill" value={titleCase(exercise.skill)} />
+          <MetricPill
+            icon={Repeat2}
+            label="Skill"
+            value={titleCase(exercise.skill)}
+          />
         </div>
 
         {/* Heart-safe: distinct, always-visible safety block */}
@@ -119,22 +103,11 @@ export function ExerciseDetail() {
 
         <section className="flex flex-col gap-3">
           <h2 className="text-[11px] font-medium uppercase tracking-label text-muted-foreground">
-            Targets
-          </h2>
-          <div className="flex flex-wrap gap-2">
-            {exercise.primaryMuscles.map((m) => (
-              <Tag key={m}>{titleCase(m)}</Tag>
-            ))}
-          </div>
-        </section>
-
-        <section className="flex flex-col gap-3">
-          <h2 className="text-[11px] font-medium uppercase tracking-label text-muted-foreground">
             Substitutions
           </h2>
-          {!slot && (
+          {!liveSlot && subOptions.length > 0 && (
             <p className="text-[13px] text-muted-foreground">
-              Swapping is available from today's session.
+              Swapping applies during an active session.
             </p>
           )}
           <div className="flex flex-col divide-y divide-border rounded-3xl border border-border bg-card">
@@ -147,9 +120,9 @@ export function ExerciseDetail() {
               <button
                 key={s.id}
                 type="button"
-                disabled={!slot}
+                disabled={!liveSlot}
                 onClick={() => swap(s.id)}
-                className="flex items-center gap-3.5 p-3 text-left transition-colors enabled:hover:bg-secondary/40 disabled:opacity-60"
+                className="flex items-center gap-3.5 p-3.5 text-left transition-colors enabled:hover:bg-secondary/40 disabled:cursor-default"
               >
                 <ExerciseGlyph equipment={s.equipment} size="sm" />
                 <div className="min-w-0 flex-1">
@@ -160,7 +133,7 @@ export function ExerciseDetail() {
                     {s.primaryMuscles.map(titleCase).join(' · ')}
                   </p>
                 </div>
-                {slot && (
+                {liveSlot && (
                   <span className="text-[12px] font-medium text-accent">
                     Swap →
                   </span>

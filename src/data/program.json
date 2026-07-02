@@ -1,13 +1,16 @@
 {
   "schemaVersion": 1,
   "meta": {
-    "name": "Full-Body 3x + Zone 2",
+    "name": "Push / Pull / Legs + Zone 2",
     "phase": "Fat loss / recomposition",
-    "split": "full-body-3x-rotation",
-    "globalRir": [1, 2],
+    "split": "ppl-3x-rotation",
+    "globalRir": [
+      1,
+      2
+    ],
     "defaultRestSec": 90,
     "accessoryRestSec": 60,
-    "notes": "Fat loss is driven by the dietary deficit (handled in Ordo Corpus), not by this training. This program's job is muscle retention, insulin sensitivity, and adherence. Rotate A -> B -> C across the three lifting days each week. Order within a week is flexible; keep at least one day between identical sessions where possible."
+    "notes": "Fat loss is driven by the dietary deficit (handled in Ordo Corpus), not by this training. This program's job is muscle retention, insulin sensitivity, and adherence. Rotate Push -> Pull -> Legs with at least one rest day between lifting sessions. Zone 2 slots onto a rest day once per week. If a session is missed, it shifts forward a day - nothing is skipped."
   },
   "progression": {
     "model": "double-progression",
@@ -36,42 +39,168 @@
   },
   "days": [
     {
-      "id": "A",
-      "name": "Full Body A — Squat focus",
+      "id": "push",
+      "name": "Push — Chest, shoulders, triceps",
       "type": "lifting",
       "exercises": [
-        { "exerciseId": "back-squat", "sets": 3, "repRange": [6, 8] },
-        { "exerciseId": "bench-press", "sets": 3, "repRange": [6, 8] },
-        { "exerciseId": "seated-cable-row", "sets": 3, "repRange": [8, 10] },
-        { "exerciseId": "leg-curl", "sets": 2, "repRange": [10, 12] },
-        { "exerciseId": "lat-pulldown", "sets": 2, "repRange": [8, 10] },
-        { "exerciseId": "cable-crunch", "sets": 3, "repRange": [10, 15] }
+        {
+          "exerciseId": "bench-press",
+          "sets": 3,
+          "repRange": [
+            6,
+            8
+          ]
+        },
+        {
+          "exerciseId": "db-shoulder-press",
+          "sets": 3,
+          "repRange": [
+            8,
+            10
+          ]
+        },
+        {
+          "exerciseId": "incline-db-press",
+          "sets": 2,
+          "repRange": [
+            8,
+            10
+          ]
+        },
+        {
+          "exerciseId": "lateral-raise",
+          "sets": 2,
+          "repRange": [
+            12,
+            15
+          ]
+        },
+        {
+          "exerciseId": "triceps-pushdown",
+          "sets": 2,
+          "repRange": [
+            10,
+            12
+          ]
+        },
+        {
+          "exerciseId": "cable-crunch",
+          "sets": 3,
+          "repRange": [
+            10,
+            15
+          ]
+        }
       ]
     },
     {
-      "id": "B",
-      "name": "Full Body B — Hinge focus",
+      "id": "pull",
+      "name": "Pull — Back, biceps, rear delts",
       "type": "lifting",
       "exercises": [
-        { "exerciseId": "trap-bar-deadlift", "sets": 3, "repRange": [6, 8] },
-        { "exerciseId": "overhead-press", "sets": 3, "repRange": [6, 8] },
-        { "exerciseId": "assisted-pull-up", "sets": 3, "repRange": [6, 10] },
-        { "exerciseId": "leg-press", "sets": 2, "repRange": [10, 12] },
-        { "exerciseId": "incline-db-press", "sets": 2, "repRange": [8, 10] },
-        { "exerciseId": "hanging-knee-raise", "sets": 3, "repRange": [8, 12] }
+        {
+          "exerciseId": "lat-pulldown",
+          "sets": 3,
+          "repRange": [
+            8,
+            10
+          ]
+        },
+        {
+          "exerciseId": "seated-cable-row",
+          "sets": 3,
+          "repRange": [
+            8,
+            10
+          ]
+        },
+        {
+          "exerciseId": "chest-supported-row",
+          "sets": 2,
+          "repRange": [
+            8,
+            10
+          ]
+        },
+        {
+          "exerciseId": "face-pull",
+          "sets": 2,
+          "repRange": [
+            12,
+            15
+          ]
+        },
+        {
+          "exerciseId": "cable-biceps-curl",
+          "sets": 2,
+          "repRange": [
+            10,
+            12
+          ]
+        },
+        {
+          "exerciseId": "hanging-knee-raise",
+          "sets": 3,
+          "repRange": [
+            8,
+            12
+          ]
+        }
       ]
     },
     {
-      "id": "C",
-      "name": "Full Body C — Volume / mixed",
+      "id": "legs",
+      "name": "Legs — Quads, hamstrings, glutes",
       "type": "lifting",
       "exercises": [
-        { "exerciseId": "leg-press", "sets": 3, "repRange": [8, 10] },
-        { "exerciseId": "incline-db-press", "sets": 3, "repRange": [8, 10] },
-        { "exerciseId": "chest-supported-row", "sets": 3, "repRange": [8, 10] },
-        { "exerciseId": "hip-thrust", "sets": 2, "repRange": [10, 12] },
-        { "exerciseId": "lateral-raise", "sets": 2, "repRange": [12, 15] },
-        { "exerciseId": "face-pull", "sets": 2, "repRange": [12, 15] }
+        {
+          "exerciseId": "back-squat",
+          "sets": 3,
+          "repRange": [
+            6,
+            8
+          ]
+        },
+        {
+          "exerciseId": "romanian-deadlift",
+          "sets": 3,
+          "repRange": [
+            6,
+            8
+          ]
+        },
+        {
+          "exerciseId": "leg-press",
+          "sets": 2,
+          "repRange": [
+            10,
+            12
+          ]
+        },
+        {
+          "exerciseId": "leg-curl",
+          "sets": 2,
+          "repRange": [
+            10,
+            12
+          ]
+        },
+        {
+          "exerciseId": "standing-calf-raise",
+          "sets": 2,
+          "repRange": [
+            12,
+            15
+          ]
+        },
+        {
+          "exerciseId": "pallof-press",
+          "sets": 2,
+          "repRange": [
+            10,
+            12
+          ]
+        }
       ]
     },
     {
@@ -79,22 +208,73 @@
       "name": "Zone 2 Cardio",
       "type": "cardio",
       "durationMin": 35,
-      "targetHrPct": [60, 70],
+      "targetHrPct": [
+        60,
+        70
+      ],
       "guidance": "Steady-state on a bike, incline treadmill walk, or elliptical. Drive it by perceived exertion: a pace where you could hold a conversation but would not want to. HR target is secondary — wrist HR reads noisily with ectopic beats, so trust breathing and conversational pace first. No spikes, no sprints."
     }
   ],
   "survey": {
     "fields": [
-      { "key": "perExercise", "type": "exercise-log", "description": "Per exercise: completed (bool), and per set the reps and load lifted (kg)." },
-      { "key": "sessionRpe", "type": "scale", "min": 1, "max": 10, "label": "Overall session difficulty" },
-      { "key": "energy", "type": "scale", "min": 1, "max": 5, "label": "Energy" },
-      { "key": "mood", "type": "scale", "min": 1, "max": 5, "label": "Mood" },
-      { "key": "palpitations", "type": "boolean", "label": "Noticed palpitations / skipped beats?" },
-      { "key": "palpitationsNote", "type": "text", "label": "Palpitation note", "showIf": "palpitations == true" },
-      { "key": "painFlag", "type": "boolean", "label": "Any joint pain or tweak?" },
-      { "key": "painNote", "type": "text", "label": "Pain note", "showIf": "painFlag == true" },
-      { "key": "durationMin", "type": "number", "label": "Session duration (min)" },
-      { "key": "notes", "type": "text", "label": "Anything else" }
+      {
+        "key": "perExercise",
+        "type": "exercise-log",
+        "description": "Per exercise: completed (bool), and per set the reps and load lifted (kg)."
+      },
+      {
+        "key": "sessionRpe",
+        "type": "scale",
+        "min": 1,
+        "max": 10,
+        "label": "Overall session difficulty"
+      },
+      {
+        "key": "energy",
+        "type": "scale",
+        "min": 1,
+        "max": 5,
+        "label": "Energy"
+      },
+      {
+        "key": "mood",
+        "type": "scale",
+        "min": 1,
+        "max": 5,
+        "label": "Mood"
+      },
+      {
+        "key": "palpitations",
+        "type": "boolean",
+        "label": "Noticed palpitations / skipped beats?"
+      },
+      {
+        "key": "palpitationsNote",
+        "type": "text",
+        "label": "Palpitation note",
+        "showIf": "palpitations == true"
+      },
+      {
+        "key": "painFlag",
+        "type": "boolean",
+        "label": "Any joint pain or tweak?"
+      },
+      {
+        "key": "painNote",
+        "type": "text",
+        "label": "Pain note",
+        "showIf": "painFlag == true"
+      },
+      {
+        "key": "durationMin",
+        "type": "number",
+        "label": "Session duration (min)"
+      },
+      {
+        "key": "notes",
+        "type": "text",
+        "label": "Anything else"
+      }
     ]
   }
 }

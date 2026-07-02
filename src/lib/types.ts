@@ -151,6 +151,17 @@ export interface BodyweightEntry {
   kg: number
 }
 
+// ----- Schedule (derived, never stored) -----
+
+export type DayStatus = 'done' | 'missed' | 'planned' | 'rest'
+
+export interface PlannedDay {
+  date: string // yyyy-mm-dd, local timezone
+  dayId: string | null // program day id, null on rest days
+  status: DayStatus
+  isToday: boolean
+}
+
 // ----- Derived / view-model shapes -----
 
 export type LoadGroup = 'upper' | 'lower'
