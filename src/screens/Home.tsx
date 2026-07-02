@@ -168,10 +168,7 @@ function LiftingCard({
   return (
     <div className="overflow-hidden rounded-3xl border border-border bg-card">
       <div className="p-5">
-        <div className="flex items-center gap-2">
-          <Tag tone="accent">{focus}</Tag>
-          {rest.length > 0 && <Tag tone="outline">{rest.join(' ')}</Tag>}
-        </div>
+        <Tag tone="accent">{focus}</Tag>
         <h3 className="mt-3 text-[26px] font-semibold tracking-tight text-card-foreground text-display">
           {focus} day
         </h3>

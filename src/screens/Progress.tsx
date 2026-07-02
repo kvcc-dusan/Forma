@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { Plus } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { PageHeader } from '@/components/page-header'
-import { SectionHeader } from '@/components/primitives'
+import { MetricPill, SectionHeader } from '@/components/primitives'
 import { LineCard } from '@/components/line-card'
 import { useBodyweight, useSessions } from '@/hooks/useStore'
 import { addBodyweight, uuid } from '@/lib/db'
@@ -13,11 +13,26 @@ import {
   loggedExercises,
   scalarSeries,
 } from '@/lib/analytics'
+import { deriveSchedule } from '@/lib/schedule'
 import { todayDateOnly } from '@/lib/utils'
 
 export function Progress() {
   const { sessions, loading } = useSessions()
   const { entries, reload: reloadBw } = useBodyweight()
+
+  const schedule = useMemo(
+    () => (loading ? null : deriveSchedule(sessions)),
+    [sessions, loading],
+  )
+  const weekLifts =
+    schedule?.week.filter(
+      (d) => d.status === 'done' && d.dayId && d.dayId !== 'zone2',
+    ).length ?? 0
+  const weekCardio = schedule?.week.some(
+    (d) => d.status === 'done' && d.dayId === 'zone2',
+  )
+    ? 1
+    : 0
 
   const exercises = useMemo(() => loggedExercises(sessions), [sessions])
   const [selected, setSelected] = useState<string>('')
@@ -55,6 +70,12 @@ export function Progress() {
           <div className="h-48 animate-pulse rounded-3xl bg-card" />
         ) : (
           <>
+            <section className="grid grid-cols-3 gap-3">
+              <MetricPill label="This week" value={`${weekLifts}/3 lifts`} />
+              <MetricPill label="Cardio" value={`${weekCardio}/1 done`} />
+              <MetricPill label="All time" value={`${sessionCount} sessions`} />
+            </section>
+
             {/* Per-exercise load over time */}
             <section className="flex flex-col gap-3">
               <SectionHeader title="Load over time" />
@@ -87,6 +108,7 @@ export function Progress() {
               />
             </section>
 
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-4">
             {/* Bodyweight 7-day moving average */}
             <section className="flex flex-col gap-3">
               <SectionHeader title="Bodyweight · 7-day average" />
@@ -131,8 +153,10 @@ export function Progress() {
               />
             </section>
 
+            </div>
+
             {/* Energy + mood */}
-            <section className="grid grid-cols-1 gap-3">
+            <section className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">
               <LineCard
                 title="Energy"
                 data={energy}
