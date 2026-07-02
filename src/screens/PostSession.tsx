@@ -103,8 +103,8 @@ export function PostSession() {
   }
 
   return (
-    <AppShell hideTabBar>
-      <div className="flex flex-col gap-6 px-5 pb-32 pt-2">
+    <AppShell hideNav>
+      <div className="flex flex-col gap-6 pb-8">
         <div className="flex items-center gap-3">
           <BackButton />
           <PageHeader eyebrow={day.name.split(' — ')[0]} title="Log session" />
@@ -126,7 +126,7 @@ export function PostSession() {
         )}
       </div>
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-background via-background to-transparent px-5 pb-6 pt-10">
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-20 md:left-56 bg-gradient-to-t from-background via-background to-transparent px-5 pb-6 pt-10">
         <button
           type="button"
           disabled={saving || loading}

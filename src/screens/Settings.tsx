@@ -40,7 +40,7 @@ export function Settings() {
 
   return (
     <AppShell>
-      <div className="flex flex-col gap-6 px-5 pb-12 pt-2">
+      <div className="flex flex-col gap-6 pb-4">
         <PageHeader eyebrow="Program & data" title="Settings" />
 
         {/* Program */}

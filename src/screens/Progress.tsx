@@ -45,7 +45,7 @@ export function Progress() {
 
   return (
     <AppShell>
-      <div className="flex flex-col gap-6 px-5 pb-10 pt-2">
+      <div className="flex flex-col gap-6 pb-4">
         <PageHeader
           eyebrow={`${sessionCount} session${sessionCount === 1 ? '' : 's'} logged`}
           title="Progress"

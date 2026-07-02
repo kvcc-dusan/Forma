@@ -70,7 +70,7 @@ export function Today() {
 
   return (
     <AppShell>
-      <div className="flex flex-col gap-6 px-5 pb-28 pt-2">
+      <div className="flex flex-col gap-6 pb-8">
         <PageHeader
           eyebrow={weekdayLabel()}
           title={day.name.split(' — ')[0]}
@@ -125,7 +125,7 @@ export function Today() {
       </div>
 
       {/* sticky log action */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-background via-background to-transparent px-5 pb-6 pt-10">
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-20 md:left-56 bg-gradient-to-t from-background via-background to-transparent px-5 pb-6 pt-10">
         <button
           type="button"
           onClick={() => navigate('/log')}

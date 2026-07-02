@@ -53,7 +53,7 @@ export function Zone2() {
 
   return (
     <AppShell>
-      <div className="flex flex-col gap-6 px-5 pb-28 pt-2">
+      <div className="flex flex-col gap-6 pb-8">
         <PageHeader eyebrow="Steady-state cardio" title="Zone 2" />
 
         <div className="flex flex-wrap gap-2">

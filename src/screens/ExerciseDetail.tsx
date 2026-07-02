@@ -42,8 +42,8 @@ export function ExerciseDetail() {
 
   if (!exercise) {
     return (
-      <AppShell hideTabBar>
-        <div className="flex flex-col gap-4 px-5 pt-3">
+      <AppShell hideNav>
+        <div className="flex flex-col gap-4 pt-1">
           <BackButton />
           <p className="text-muted-foreground">Exercise not found.</p>
         </div>
@@ -58,7 +58,7 @@ export function ExerciseDetail() {
   }
 
   return (
-    <AppShell hideTabBar>
+    <AppShell hideNav>
       <div className="relative">
         <div className="flex h-44 items-center justify-center bg-gradient-to-br from-secondary to-card">
           <ExerciseGlyph
@@ -67,12 +67,12 @@ export function ExerciseDetail() {
             className="h-24 w-24 rounded-3xl"
           />
         </div>
-        <div className="absolute inset-x-0 top-0 px-5 pt-3">
+        <div className="absolute inset-x-0 top-0 pt-1">
           <BackButton variant="overlay" />
         </div>
       </div>
 
-      <div className="flex flex-col gap-7 px-5 pb-16 pt-5">
+      <div className="flex flex-col gap-7 pb-8 pt-5">
         <div>
           <Tag tone="accent" className="capitalize">
             {titleCase(exercise.pattern)}
