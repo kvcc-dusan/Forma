@@ -153,7 +153,7 @@ export function Settings() {
         </section>
 
         <p className="pt-2 text-center text-[12px] text-muted-foreground/70">
-          Forma · offline-first · v2
+          Forma · offline-first · v3
         </p>
       </div>
     </AppShell>

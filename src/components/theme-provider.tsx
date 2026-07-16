@@ -35,7 +35,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     root.style.colorScheme = theme
     window.localStorage.setItem(STORAGE_KEY, theme)
     const meta = document.querySelector('meta[name="theme-color"]')
-    if (meta) meta.setAttribute('content', theme === 'dark' ? '#1a1a18' : '#f4f3ee')
+    if (meta) meta.setAttribute('content', theme === 'dark' ? '#000000' : '#f4f3ee')
   }, [theme])
 
   const value = useMemo<ThemeContextValue>(

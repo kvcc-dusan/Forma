@@ -20,7 +20,7 @@ export function AppShell({ children, hideNav, className }: AppShellProps) {
       {!hideNav && <SideNav />}
       <main
         className={cn(
-          'mx-auto w-full max-w-lg px-5 pt-[max(1.25rem,env(safe-area-inset-top))] md:max-w-3xl md:px-10 md:pt-10',
+          'mx-auto w-full max-w-lg px-4 pt-[max(1.25rem,env(safe-area-inset-top))] md:max-w-3xl md:px-10 md:pt-10',
           hideNav ? 'pb-12 md:max-w-2xl' : 'pb-28 md:pb-12',
           className,
         )}

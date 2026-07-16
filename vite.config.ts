@@ -30,8 +30,8 @@ export default defineConfig({
         short_name: 'Forma',
         description:
           'A calm, heart-safe training companion. Offline-first, single user.',
-        theme_color: '#1a1a18',
-        background_color: '#1a1a18',
+        theme_color: '#000000',
+        background_color: '#000000',
         display: 'standalone',
         orientation: 'portrait',
         start_url: '/',
