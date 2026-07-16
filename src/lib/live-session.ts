@@ -1,27 +1,23 @@
-import { computeTarget } from './progression'
 import { getDay, getExercise, isLiftingDay } from './program'
 import { localDate, todayISO } from './utils'
-import type { SessionLog } from './types'
 
 // The in-flight workout. Lives in localStorage so a phone lock, tab kill, or
 // reload mid-session loses nothing. Exactly one live session at a time;
 // cleared when the session is saved or discarded.
+//
+// Read-first design: no per-set data is collected — an exercise is simply
+// done or not done.
 
 const KEY = 'forma-live-session'
-
-export interface LiveSet {
-  reps: number
-  loadKg: number
-  done: boolean
-}
 
 export interface LiveExercise {
   // The slot in the program day this entry fills (stable across substitution).
   originalId: string
   // The exercise actually being performed (differs when substituted).
   exerciseId: string
+  sets: number
   repRange: [number, number]
-  sets: LiveSet[]
+  done: boolean
 }
 
 export interface LiveSession {
@@ -38,8 +34,11 @@ export const readLiveSession = (): LiveSession | null => {
     const raw = localStorage.getItem(KEY)
     if (!raw) return null
     const session = JSON.parse(raw) as LiveSession
-    // A stale session from a previous day is discarded, not resumed.
-    return session.date === localDate() ? session : null
+    // A stale session from a previous day (or the old per-set shape) is
+    // discarded, not resumed.
+    if (session.date !== localDate()) return null
+    if (session.exercises.some((e) => typeof e.done !== 'boolean')) return null
+    return session
   } catch {
     return null
   }
@@ -53,31 +52,18 @@ export const clearLiveSession = (): void => {
   localStorage.removeItem(KEY)
 }
 
-// Build a fresh live session for a program day, prefilled from progression:
-// reps = today's target, load = last session's working load (or none).
-export const createLiveSession = (
-  dayId: string,
-  sessions: SessionLog[],
-): LiveSession => {
+export const createLiveSession = (dayId: string): LiveSession => {
   const day = getDay(dayId)
-  const exercises: LiveExercise[] = []
-
-  if (day && isLiftingDay(day)) {
-    for (const dx of day.exercises) {
-      const target = computeTarget(dx, sessions)
-      const load = target.loadKg ?? 0
-      exercises.push({
-        originalId: dx.exerciseId,
-        exerciseId: dx.exerciseId,
-        repRange: dx.repRange,
-        sets: Array.from({ length: dx.sets }, () => ({
-          reps: target.repsTarget,
-          loadKg: load,
+  const exercises: LiveExercise[] =
+    day && isLiftingDay(day)
+      ? day.exercises.map((dx) => ({
+          originalId: dx.exerciseId,
+          exerciseId: dx.exerciseId,
+          sets: dx.sets,
+          repRange: dx.repRange,
           done: false,
-        })),
-      })
-    }
-  }
+        }))
+      : []
 
   const session: LiveSession = {
     dayId,
@@ -91,34 +77,17 @@ export const createLiveSession = (
   return session
 }
 
-// Substitute an exercise (this session only). Sets keep their entered data
-// only if untouched; a swap resets reps/load to the substitute's fresh state.
+// Substitute an exercise, this session only.
 export const substituteInLiveSession = (
   session: LiveSession,
   originalId: string,
   substituteId: string,
-  allSessions: SessionLog[],
 ): LiveSession => {
-  const day = getDay(session.dayId)
-  if (!day || !isLiftingDay(day)) return session
-  const dx = day.exercises.find((e) => e.exerciseId === originalId)
-  if (!dx || !getExercise(substituteId)) return session
-
-  const target = computeTarget({ ...dx, exerciseId: substituteId }, allSessions)
+  if (!getExercise(substituteId)) return session
   const next: LiveSession = {
     ...session,
     exercises: session.exercises.map((ex) =>
-      ex.originalId === originalId
-        ? {
-            ...ex,
-            exerciseId: substituteId,
-            sets: ex.sets.map((s) => ({
-              ...s,
-              reps: s.done ? s.reps : target.repsTarget,
-              loadKg: s.done ? s.loadKg : (target.loadKg ?? 0),
-            })),
-          }
-        : ex,
+      ex.originalId === originalId ? { ...ex, exerciseId: substituteId } : ex,
     ),
   }
   writeLiveSession(next)

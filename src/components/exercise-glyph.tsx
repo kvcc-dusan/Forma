@@ -34,14 +34,29 @@ const iconSize = {
 
 export function ExerciseGlyph({
   equipment,
+  image,
   size = 'md',
   className,
 }: {
   equipment: Equipment
+  image?: string
   size?: keyof typeof sizeClass
   className?: string
 }) {
   const Icon = equipmentIcon[equipment] ?? Dumbbell
+  if (image) {
+    return (
+      <img
+        src={image}
+        alt=""
+        className={cn(
+          'shrink-0 rounded-2xl border border-border object-cover',
+          sizeClass[size],
+          className,
+        )}
+      />
+    )
+  }
   return (
     <div
       className={cn(

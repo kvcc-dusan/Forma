@@ -14,15 +14,23 @@ const dayLabel = (dayId: string | null): string => {
   return dayId.slice(0, 2).toUpperCase()
 }
 
-export function WeekStrip({ week }: { week: PlannedDay[] }) {
+export function WeekStrip({
+  week,
+  onDayTap,
+}: {
+  week: PlannedDay[]
+  onDayTap?: (day: PlannedDay) => void
+}) {
   return (
     <div className="rounded-3xl border border-border bg-card p-4">
       <div className="grid grid-cols-7 gap-1.5">
         {week.map((day, i) => (
-          <div
+          <button
+            type="button"
             key={day.date}
             data-status={day.status}
             data-day={day.dayId ?? ''}
+            onClick={() => onDayTap?.(day)}
             className="flex flex-col items-center gap-1.5"
           >
             <span className="text-[10px] font-medium text-muted-foreground">
@@ -66,7 +74,7 @@ export function WeekStrip({ week }: { week: PlannedDay[] }) {
             >
               today
             </span>
-          </div>
+          </button>
         ))}
       </div>
     </div>

@@ -20,6 +20,8 @@ export interface Exercise {
   equipment: Equipment
   primaryMuscles: string[]
   skill: Skill
+  // Optional illustration (path under /public); glyph fallback when absent.
+  image?: string
   cues: string[]
   heartSafe: string[]
   substitutions: string[] // exercise ids

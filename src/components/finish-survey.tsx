@@ -3,11 +3,13 @@ import { Check, X } from 'lucide-react'
 import { program } from '@/lib/program'
 import { isFieldVisible, type SurveyValues } from '@/lib/survey'
 import type { SurveyField } from '@/lib/types'
-import { ScalePicker } from './primitives'
+import { ScalePicker, Switch } from './primitives'
 
 // The post-workout check-in, rendered from program.json.survey.fields as a
 // bottom sheet. The exercise-log field is skipped — set data was captured live
 // during the session. Duration is prefilled from the session clock.
+
+const DURATION_CHOICES = [30, 45, 60, 75, 90]
 
 export interface SurveyResult {
   sessionRpe?: number
@@ -32,7 +34,12 @@ export function FinishSurvey({
   onSubmit: (result: SurveyResult) => void
   onCancel: () => void
 }) {
-  const [values, setValues] = useState<SurveyValues>({ durationMin })
+  const nearestDuration = DURATION_CHOICES.reduce((best, c) =>
+    Math.abs(c - durationMin) < Math.abs(best - durationMin) ? c : best,
+  )
+  const [values, setValues] = useState<SurveyValues>({
+    durationMin: nearestDuration,
+  })
 
   const fields = program.survey.fields.filter((f) => f.type !== 'exercise-log')
   const setValue = (key: string, v: unknown) =>
@@ -133,28 +140,42 @@ function FieldView({
         <span className="text-[14px] font-medium text-foreground">
           {field.label}
         </span>
-        <button
-          type="button"
-          role="switch"
-          aria-checked={on}
-          onClick={() => onValue(field.key, !on)}
-          className={
-            'relative h-7 w-12 shrink-0 rounded-full transition-colors ' +
-            (on ? 'bg-accent' : 'bg-secondary')
-          }
-        >
-          <span
-            className={
-              'absolute top-1 h-5 w-5 rounded-full bg-card transition-transform ' +
-              (on ? 'translate-x-6' : 'translate-x-1')
-            }
-          />
-        </button>
+        <Switch
+          checked={on}
+          onChange={(v) => onValue(field.key, v)}
+          aria-label={field.label}
+        />
       </section>
     )
   }
 
   if (field.type === 'number') {
+    // Duration is picked from chips — no typing mid-gym.
+    if (field.key === 'durationMin') {
+      const current = values[field.key] as number | undefined
+      return (
+        <section className="flex flex-col gap-2.5">
+          <Label>{field.label}</Label>
+          <div className="flex flex-wrap gap-2">
+            {DURATION_CHOICES.map((min) => (
+              <button
+                key={min}
+                type="button"
+                onClick={() => onValue(field.key, min)}
+                className={
+                  'h-11 flex-1 rounded-xl border text-[14px] font-medium tabular-nums transition-colors ' +
+                  (current === min
+                    ? 'border-foreground bg-foreground text-background'
+                    : 'border-border bg-background text-muted-foreground hover:text-foreground')
+                }
+              >
+                {min}′
+              </button>
+            ))}
+          </div>
+        </section>
+      )
+    }
     return (
       <section className="flex flex-col gap-2.5">
         <Label>{field.label}</Label>

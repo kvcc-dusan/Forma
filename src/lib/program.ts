@@ -2,6 +2,7 @@ import programJson from '@/data/program.json'
 import libraryJson from '@/data/exercise-library.json'
 import type {
   CardioDay,
+  DayExercise,
   Exercise,
   ExerciseLibrary,
   LiftingDay,
@@ -41,3 +42,32 @@ export const isLiftingDay = (d: ProgramDay): d is LiftingDay =>
 // library (the library references a few subs that aren't catalogued yet).
 export const resolveSubstitutions = (ids: string[]): Exercise[] =>
   ids.map((id) => exerciseIndex[id]).filter((e): e is Exercise => Boolean(e))
+
+// ----- time estimates -----
+
+const WORK_SECONDS_PER_SET = 40
+
+// Rest between sets: accessories/core use the shorter accessory rest.
+export const restSecondsFor = (exerciseId: string): number => {
+  const ex = exerciseIndex[exerciseId]
+  return ex && (ex.pattern.startsWith('accessory') || ex.pattern === 'core')
+    ? program.meta.accessoryRestSec
+    : program.meta.defaultRestSec
+}
+
+export const estimateExerciseMinutes = (dx: DayExercise): number =>
+  Math.max(
+    1,
+    Math.round(
+      (dx.sets * (WORK_SECONDS_PER_SET + restSecondsFor(dx.exerciseId))) / 60,
+    ),
+  )
+
+export const estimateDayMinutes = (day: ProgramDay): number => {
+  if (day.type === 'cardio') return day.durationMin
+  const lifting = day.exercises.reduce(
+    (sum, dx) => sum + estimateExerciseMinutes(dx),
+    0,
+  )
+  return program.warmup.cardioMin + lifting + program.warmup.cooldownMin
+}

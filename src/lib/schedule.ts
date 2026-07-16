@@ -4,19 +4,30 @@ import type { PlannedDay, SessionLog } from './types'
 
 // Push-forward scheduler.
 //
-// Nothing is tied to weekdays. The lifting cycle (Push -> Pull -> Legs) plays
-// out day by day from an anchor date with one rule: at least one rest day
-// between lifting sessions. A day where a lift was due but nothing was logged
-// counts as "missed" and the whole queue shifts forward — today always shows
-// the next undone workout. Zone 2 is planned once per calendar week on a rest
-// day and never blocks the lifting queue.
+// Nothing is tied to weekdays. Lifting days rotate Push -> Pull -> Legs with
+// one rule: at least one rest day between lifting sessions. A day where a lift
+// was due but nothing was logged counts as "missed" and the queue shifts
+// forward — today always shows the next undone workout. Zone 2 is planned once
+// per calendar week on a rest day and never blocks the lifting queue.
 //
-// Everything is derived from the session logs; no calendar is stored. The only
-// stored state is the anchor (first day of the program).
+// The rotation is successor-based: the next lift is whatever follows the LAST
+// COMPLETED lift in the cycle, so freely starting any workout (from the
+// Workouts tab or the calendar) keeps the rotation coherent.
+//
+// Manual control: a stored "delay" date pushes the whole upcoming queue —
+// "move to tomorrow / move to day X" simply means no lift is planned before
+// that date. Everything else is derived from the session logs.
 
 const ANCHOR_KEY = 'forma-anchor'
+const DELAY_KEY = 'forma-schedule-delay'
 
 const liftingIds = liftingDays.map((d) => d.id)
+
+const successorOf = (dayId: string | null): string => {
+  if (!dayId) return liftingIds[0]
+  const idx = liftingIds.indexOf(dayId)
+  return liftingIds[(idx + 1) % liftingIds.length]
+}
 
 export const getAnchor = (sessions: SessionLog[]): string => {
   const today = localDate()
@@ -36,6 +47,24 @@ export const getAnchor = (sessions: SessionLog[]): string => {
       )
     : null
   return earliest && earliest < anchor ? earliest : anchor
+}
+
+// ----- manual postpone -----
+
+export const getScheduleDelay = (): string | null => {
+  const v = localStorage.getItem(DELAY_KEY)
+  if (!v) return null
+  // A delay in the past is inert.
+  return v > localDate() ? v : null
+}
+
+// "No lift planned before `date`." Pass tomorrow to move today's workout.
+export const setScheduleDelay = (date: string): void => {
+  localStorage.setItem(DELAY_KEY, date)
+}
+
+export const clearScheduleDelay = (): void => {
+  localStorage.removeItem(DELAY_KEY)
 }
 
 // Monday of the week containing the given date.
@@ -68,6 +97,9 @@ export interface Schedule {
   today: PlannedDay
   week: PlannedDay[] // Mon–Sun of the current week
   upcoming: PlannedDay[] // next planned workouts after today (non-rest)
+  // The first upcoming (or today's) planned lifting/cardio day — the queue
+  // head, the only day that can be manually moved.
+  nextPlanned: PlannedDay | null
 }
 
 export const deriveSchedule = (
@@ -77,6 +109,7 @@ export const deriveSchedule = (
 ): Schedule => {
   const anchor = getAnchor(sessions)
   const logs = indexLogs(sessions)
+  const delay = getScheduleDelay()
   const days = new Map<string, PlannedDay>()
 
   // Start the walk from the Monday of the anchor week so the current week is
@@ -84,12 +117,9 @@ export const deriveSchedule = (
   const start = mondayOf(anchor < todayDate ? anchor : todayDate)
   const end = addDays(todayDate, horizonDays)
 
-  // The next lifting day is always cycle[(doneLifts + plannedLifts) % 3]:
-  // completed sessions advance the cycle, and planning continues it forward.
-  let plannedLiftCursor = 0
+  let lastLiftId: string | null = null
   let prevWasLift = false
   let zone2DoneThisWeek = false
-  let doneLifts = 0
 
   for (let date = start; date <= end; date = addDays(date, 1)) {
     if (date === mondayOf(date)) zone2DoneThisWeek = false
@@ -100,7 +130,7 @@ export const deriveSchedule = (
 
     if (log?.lifting) {
       days.set(date, { date, dayId: log.lifting, status: 'done', isToday })
-      doneLifts += 1
+      lastLiftId = log.lifting
       prevWasLift = true
       if (log.zone2) zone2DoneThisWeek = true
       continue
@@ -113,10 +143,7 @@ export const deriveSchedule = (
     }
 
     if (isPast) {
-      if (date < anchor) {
-        days.set(date, { date, dayId: null, status: 'rest', isToday })
-      } else if (prevWasLift) {
-        // mandatory rest day — nothing was due
+      if (date < anchor || prevWasLift) {
         days.set(date, { date, dayId: null, status: 'rest', isToday })
       } else {
         // a lift was due and didn't happen -> it moved forward
@@ -127,8 +154,9 @@ export const deriveSchedule = (
     }
 
     // today or future: plan forward
-    if (prevWasLift) {
-      // rest day; slot Zone 2 here if the week still needs it
+    const postponed = delay !== null && date < delay
+    if (prevWasLift || postponed) {
+      // rest (mandatory or manually chosen); slot Zone 2 if the week needs it
       if (!zone2DoneThisWeek) {
         days.set(date, { date, dayId: 'zone2', status: 'planned', isToday })
         zone2DoneThisWeek = true
@@ -137,10 +165,9 @@ export const deriveSchedule = (
       }
       prevWasLift = false
     } else {
-      const nextId =
-        liftingIds[(doneLifts + plannedLiftCursor) % liftingIds.length]
+      const nextId = successorOf(lastLiftId)
       days.set(date, { date, dayId: nextId, status: 'planned', isToday })
-      plannedLiftCursor += 1
+      lastLiftId = nextId
       prevWasLift = true
     }
   }
@@ -165,5 +192,10 @@ export const deriveSchedule = (
     if (d && d.status === 'planned' && d.dayId) upcoming.push(d)
   }
 
-  return { days, today, week, upcoming }
+  const nextPlanned =
+    today.status === 'planned' && today.dayId
+      ? today
+      : (upcoming.find((d) => d.dayId && d.dayId !== 'zone2') ?? null)
+
+  return { days, today, week, upcoming, nextPlanned }
 }

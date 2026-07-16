@@ -1,5 +1,5 @@
 import { openDB, type DBSchema, type IDBPDatabase } from 'idb'
-import type { BodyweightEntry, ExerciseLog, SessionLog } from './types'
+import type { BodyweightEntry, SessionLog } from './types'
 
 // Offline-first persistence. All training history lives here in the browser —
 // no backend, no sync. Sessions and bodyweight entries are the only mutable
@@ -65,17 +65,6 @@ export const deleteSession = async (id: string): Promise<void> => {
   await db.delete('sessions', id)
 }
 
-// Most recent log for a given exercise across all stored sessions, newest first.
-export const getLastExerciseLog = (
-  sessions: SessionLog[],
-  exerciseId: string,
-): { log: ExerciseLog; date: string } | null => {
-  for (const s of sessions) {
-    const log = s.perExercise.find((e) => e.exerciseId === exerciseId)
-    if (log && log.sets.length > 0) return { log, date: s.date }
-  }
-  return null
-}
 
 // ----- Bodyweight -----
 

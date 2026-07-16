@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   ArrowRight,
@@ -15,11 +15,17 @@ import { PageHeader } from '@/components/page-header'
 import { SectionHeader, Tag } from '@/components/primitives'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { WeekStrip } from '@/components/week-strip'
+import { DaySheet } from '@/components/day-sheet'
 import { useSessions } from '@/hooks/useStore'
 import { createLiveSession, readLiveSession } from '@/lib/live-session'
 import { deriveSchedule } from '@/lib/schedule'
-import { getDay, getExercise, isLiftingDay } from '@/lib/program'
-import type { CardioDay, LiftingDay } from '@/lib/types'
+import {
+  estimateDayMinutes,
+  getDay,
+  getExercise,
+  isLiftingDay,
+} from '@/lib/program'
+import type { CardioDay, LiftingDay, PlannedDay } from '@/lib/types'
 
 const headerDate = (): string =>
   new Date().toLocaleDateString('en-GB', {
@@ -28,19 +34,17 @@ const headerDate = (): string =>
     month: 'long',
   })
 
-// Rough session length: warm-up + sets * (work + rest) + cool-down.
-const estimateMinutes = (day: LiftingDay): number => {
-  const sets = day.exercises.reduce((n, e) => n + e.sets, 0)
-  return Math.round(5 + sets * 2.5 + 4)
-}
-
 export function Home() {
   const { sessions, loading } = useSessions()
   const navigate = useNavigate()
+  const [selectedDay, setSelectedDay] = useState<PlannedDay | null>(null)
+  // bumped after a manual move so the schedule re-derives from localStorage
+  const [scheduleRev, setScheduleRev] = useState(0)
 
   const schedule = useMemo(
     () => (loading ? null : deriveSchedule(sessions)),
-    [sessions, loading],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sessions, loading, scheduleRev],
   )
 
   const todayPlan = schedule?.today
@@ -49,7 +53,7 @@ export function Home() {
   // One tap from Home into the session: create (or resume) the live session
   // for today's planned day, then jump to Train.
   const startSession = (dayId: string) => {
-    if (!readLiveSession()) createLiveSession(dayId, sessions)
+    if (!readLiveSession()) createLiveSession(dayId)
     navigate('/train')
   }
 
@@ -85,7 +89,7 @@ export function Home() {
                   </span>
                 }
               />
-              <WeekStrip week={schedule.week} />
+              <WeekStrip week={schedule.week} onDayTap={setSelectedDay} />
             </section>
 
             <section className="flex flex-col gap-3">
@@ -148,6 +152,15 @@ export function Home() {
           </>
         )}
       </div>
+
+      {selectedDay && schedule && (
+        <DaySheet
+          day={selectedDay}
+          isQueueHead={selectedDay.date === schedule.nextPlanned?.date}
+          onClose={() => setSelectedDay(null)}
+          onChanged={() => setScheduleRev((r) => r + 1)}
+        />
+      )}
     </AppShell>
   )
 }
@@ -183,7 +196,7 @@ function LiftingCard({
           </span>
           <span className="inline-flex items-center gap-1.5">
             <Clock className="h-[15px] w-[15px]" strokeWidth={1.8} />~
-            {estimateMinutes(day)} min
+            {estimateDayMinutes(day)} min
           </span>
         </div>
 

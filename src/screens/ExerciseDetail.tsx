@@ -11,7 +11,6 @@ import {
   readLiveSession,
   substituteInLiveSession,
 } from '@/lib/live-session'
-import { useSessions } from '@/hooks/useStore'
 
 const titleCase = (s: string) =>
   s.charAt(0).toUpperCase() + s.slice(1).replace(/-/g, ' ')
@@ -19,7 +18,6 @@ const titleCase = (s: string) =>
 export function ExerciseDetail() {
   const { id = '' } = useParams()
   const navigate = useNavigate()
-  const { sessions } = useSessions()
   const exercise = getExercise(id)
 
   // Swapping is only meaningful inside an active session: find the live slot
@@ -43,7 +41,7 @@ export function ExerciseDetail() {
 
   const swap = (substituteId: string) => {
     if (!live || !liveSlot) return
-    substituteInLiveSession(live, liveSlot.originalId, substituteId, sessions)
+    substituteInLiveSession(live, liveSlot.originalId, substituteId)
     navigate('/train')
   }
 
@@ -52,7 +50,7 @@ export function ExerciseDetail() {
       <div className="flex flex-col gap-7">
         <div className="flex items-center justify-between pt-1">
           <BackButton />
-          <ExerciseGlyph equipment={exercise.equipment} size="md" />
+          <ExerciseGlyph equipment={exercise.equipment} image={exercise.image} size="md" />
         </div>
 
         <div>
@@ -124,7 +122,7 @@ export function ExerciseDetail() {
                 onClick={() => swap(s.id)}
                 className="flex items-center gap-3.5 p-3.5 text-left transition-colors enabled:hover:bg-secondary/40 disabled:cursor-default"
               >
-                <ExerciseGlyph equipment={s.equipment} size="sm" />
+                <ExerciseGlyph equipment={s.equipment} image={s.image} size="sm" />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-[15px] font-medium tracking-tight text-card-foreground">
                     {s.name}

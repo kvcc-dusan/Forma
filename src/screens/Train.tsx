@@ -11,24 +11,18 @@ import { FinishSurvey, type SurveyResult } from '@/components/finish-survey'
 import { RestTimer } from '@/components/rest-timer'
 import { useSessions } from '@/hooks/useStore'
 import { deriveSchedule } from '@/lib/schedule'
-import { getDay, getExercise, program } from '@/lib/program'
+import { getDay, restSecondsFor } from '@/lib/program'
 import {
   clearLiveSession,
   createLiveSession,
   readLiveSession,
   substituteInLiveSession,
+  writeLiveSession,
   type LiveSession,
 } from '@/lib/live-session'
 import { addSession, uuid } from '@/lib/db'
 import { todayISO } from '@/lib/utils'
 import type { CardioDay, SessionLog } from '@/lib/types'
-
-const restSecondsFor = (exerciseId: string): number => {
-  const ex = getExercise(exerciseId)
-  return ex && (ex.pattern.startsWith('accessory') || ex.pattern === 'core')
-    ? program.meta.accessoryRestSec
-    : program.meta.defaultRestSec
-}
 
 const elapsedMinutes = (startedAt: string): number =>
   Math.max(1, Math.round((Date.now() - new Date(startedAt).getTime()) / 60000))
@@ -39,8 +33,8 @@ export function Train() {
 
   const [live, setLive] = useState<LiveSession | null>(() => readLiveSession())
   const [timer, setTimer] = useState<number | null>(null)
-  const [finishing, setFinishing] = useState(false)
-  const [saving, setSaving] = useState(false)
+  const [isFinishing, setFinishing] = useState(false)
+  const [isSaving, setSaving] = useState(false)
   const [confirmExit, setConfirmExit] = useState(false)
 
   const schedule = useMemo(
@@ -51,8 +45,7 @@ export function Train() {
   // ---------- no active session: offer to start ----------
   if (!live) {
     const todayPlan = schedule?.today
-    const plannedId =
-      todayPlan?.status === 'planned' ? todayPlan.dayId : null
+    const plannedId = todayPlan?.status === 'planned' ? todayPlan.dayId : null
     // Even on a rest day the next queued workout can be pulled forward.
     const nextId = plannedId ?? schedule?.upcoming[0]?.dayId ?? null
     const nextDay = nextId ? getDay(nextId) : null
@@ -69,7 +62,7 @@ export function Train() {
                 Today's session is already logged. ✓
               </p>
               <p className="mt-1 text-[13px] text-muted-foreground">
-                Rest up — the next workout is queued for tomorrow.
+                Rest up — the next workout is queued.
               </p>
             </div>
           ) : nextDay ? (
@@ -88,7 +81,7 @@ export function Train() {
               )}
               <button
                 type="button"
-                onClick={() => setLive(createLiveSession(nextDay.id, sessions))}
+                onClick={() => setLive(createLiveSession(nextDay.id))}
                 className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-4 text-[15px] font-semibold text-primary-foreground transition-opacity hover:opacity-90"
               >
                 <Play className="h-[18px] w-[18px] fill-current" strokeWidth={0} />
@@ -106,76 +99,39 @@ export function Train() {
   // ---------- active session ----------
   const day = getDay(live.dayId)
   const isCardio = day?.type === 'cardio'
-  const totalSets = live.exercises.reduce((n, e) => n + e.sets.length, 0)
-  const doneSets = live.exercises.reduce(
-    (n, e) => n + e.sets.filter((s) => s.done).length,
-    0,
-  )
-  const pct = totalSets === 0 ? 0 : Math.round((doneSets / totalSets) * 100)
+  const doneCount = live.exercises.filter((e) => e.done).length
+  const total = live.exercises.length
+  const pct = total === 0 ? 0 : Math.round((doneCount / total) * 100)
 
   const update = (mutate: (s: LiveSession) => LiveSession) => {
     setLive((prev) => {
       if (!prev) return prev
       const next = mutate(prev)
-      localStorage.setItem('forma-live-session', JSON.stringify(next))
+      writeLiveSession(next)
       return next
     })
   }
 
-  const handleSetChange = (
-    exIdx: number,
-    setIdx: number,
-    field: 'reps' | 'loadKg',
-    value: number,
-  ) =>
-    update((s) => ({
-      ...s,
-      exercises: s.exercises.map((ex, i) =>
-        i === exIdx
-          ? {
-              ...ex,
-              sets: ex.sets.map((set, j) =>
-                j === setIdx ? { ...set, [field]: value } : set,
-              ),
-            }
-          : ex,
-      ),
-    }))
-
-  const handleSetDone = (exIdx: number, setIdx: number) => {
-    const wasDone = live.exercises[exIdx].sets[setIdx].done
+  const handleDone = (exIdx: number) => {
+    const wasDone = live.exercises[exIdx].done
     update((s) => {
       const exercises = s.exercises.map((ex, i) =>
-        i === exIdx
-          ? {
-              ...ex,
-              sets: ex.sets.map((set, j) =>
-                j === setIdx ? { ...set, done: !set.done } : set,
-              ),
-            }
-          : ex,
+        i === exIdx ? { ...ex, done: !ex.done } : ex,
       )
-      // when an exercise completes, move focus to the next unfinished one
-      const exDone = exercises[exIdx].sets.every((set) => set.done)
+      // move focus to the next unfinished exercise
       let currentIndex = s.currentIndex
-      if (exDone) {
-        const next = exercises.findIndex(
-          (ex, i) => i > exIdx && ex.sets.some((set) => !set.done),
-        )
-        if (next !== -1) currentIndex = next
+      if (!wasDone) {
+        const next = exercises.findIndex((ex, i) => i > exIdx && !ex.done)
+        currentIndex = next !== -1 ? next : -1
       }
       return { ...s, exercises, currentIndex }
     })
-    if (!wasDone) {
-      setTimer(restSecondsFor(live.exercises[exIdx].exerciseId))
-    }
+    if (!wasDone) setTimer(restSecondsFor(live.exercises[exIdx].exerciseId))
   }
 
   const handleSubstitute = (originalId: string, substituteId: string) => {
     setLive((prev) =>
-      prev
-        ? substituteInLiveSession(prev, originalId, substituteId, sessions)
-        : prev,
+      prev ? substituteInLiveSession(prev, originalId, substituteId) : prev,
     )
   }
 
@@ -187,10 +143,8 @@ export function Train() {
       date: todayISO(),
       perExercise: live.exercises.map((ex) => ({
         exerciseId: ex.exerciseId,
-        completed: ex.sets.length > 0 && ex.sets.every((s) => s.done),
-        sets: ex.sets
-          .filter((s) => s.done)
-          .map((s) => ({ reps: s.reps, loadKg: s.loadKg })),
+        completed: ex.done,
+        sets: [],
       })),
       ...survey,
     }
@@ -210,13 +164,13 @@ export function Train() {
   return (
     <AppShell hideNav>
       {/* session header */}
-      <div className="sticky top-0 z-20 -mx-5 border-b border-border bg-background/85 px-5 backdrop-blur-xl md:-mx-8 md:px-8">
+      <div className="sticky top-0 z-20 -mx-4 border-b border-border bg-background/85 px-4 backdrop-blur-xl md:-mx-8 md:px-8">
         <div className="flex items-center justify-between py-3">
           <button
             type="button"
             onClick={() => setConfirmExit(true)}
             aria-label="Exit session"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:bg-muted"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:bg-muted"
           >
             <X className="h-4 w-4" />
           </button>
@@ -224,12 +178,14 @@ export function Train() {
             <p className="text-[11px] uppercase tracking-label text-muted-foreground">
               In session
             </p>
-            <p className="text-sm font-medium text-foreground">{day?.name}</p>
+            <p className="text-sm font-semibold text-foreground">
+              {day?.name.split(' — ')[0]}
+            </p>
           </div>
           <SessionClock startedAt={live.startedAt} />
         </div>
         {!isCardio && (
-          <div className="-mx-5 h-0.5 bg-muted md:-mx-8">
+          <div className="-mx-4 h-0.5 bg-muted md:-mx-8">
             <div
               className="h-full bg-accent transition-all duration-500"
               style={{ width: `${pct}%` }}
@@ -238,20 +194,18 @@ export function Train() {
         )}
       </div>
 
-      <div className="flex flex-col gap-5 pt-5">
+      <div className="flex flex-col gap-4 pt-5">
         {isCardio && day ? (
           <CardioSession day={day as CardioDay} />
         ) : (
           <>
-            <div className="flex items-baseline justify-between">
+            <div className="flex items-baseline justify-between px-1">
               <p className="text-4xl font-semibold tracking-tight text-foreground tabular-nums">
-                {doneSets}
-                <span className="text-xl text-muted-foreground">
-                  /{totalSets}
-                </span>
+                {doneCount}
+                <span className="text-xl text-muted-foreground">/{total}</span>
               </p>
               <span className="text-[11px] uppercase tracking-label text-muted-foreground">
-                sets logged
+                exercises
               </span>
             </div>
 
@@ -261,7 +215,7 @@ export function Train() {
                 <button
                   type="button"
                   onClick={() => update((s) => ({ ...s, warmupDone: true }))}
-                  className="absolute right-3.5 top-3.5 flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1.5 text-[12px] font-medium text-secondary-foreground transition-colors hover:bg-muted"
+                  className="absolute right-3.5 top-3.5 flex items-center gap-1.5 rounded-full bg-secondary px-3.5 py-2 text-[12px] font-medium text-secondary-foreground transition-colors hover:bg-muted"
                 >
                   <Check className="h-3.5 w-3.5" /> Done
                 </button>
@@ -274,18 +228,14 @@ export function Train() {
                   key={entry.originalId}
                   entry={entry}
                   index={i}
-                  expanded={live.currentIndex === i}
-                  sessions={sessions}
+                  isExpanded={live.currentIndex === i}
                   onFocus={() =>
                     update((s) => ({
                       ...s,
                       currentIndex: s.currentIndex === i ? -1 : i,
                     }))
                   }
-                  onSetChange={(setIdx, field, value) =>
-                    handleSetChange(i, setIdx, field, value)
-                  }
-                  onSetDone={(setIdx) => handleSetDone(i, setIdx)}
+                  onDone={() => handleDone(i)}
                   onSubstitute={(subId) =>
                     handleSubstitute(entry.originalId, subId)
                   }
@@ -311,10 +261,10 @@ export function Train() {
         <RestTimer duration={timer} onClose={() => setTimer(null)} />
       )}
 
-      {finishing && (
+      {isFinishing && (
         <FinishSurvey
           durationMin={elapsedMinutes(live.startedAt)}
-          saving={saving}
+          saving={isSaving}
           onSubmit={saveSession}
           onCancel={() => setFinishing(false)}
         />
@@ -333,7 +283,7 @@ export function Train() {
               Leave this session?
             </h3>
             <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
-              Your sets stay saved on this device — you can come back and
+              Your progress stays saved on this device — come back and
               continue, or discard the session entirely.
             </p>
             <div className="mt-4 flex flex-col gap-2">
@@ -369,7 +319,7 @@ function SessionClock({ startedAt }: { startedAt: string }) {
     return () => window.clearInterval(id)
   }, [])
   return (
-    <span className="w-9 text-right text-[13px] font-medium tabular-nums text-muted-foreground">
+    <span className="w-10 text-right text-[13px] font-medium tabular-nums text-muted-foreground">
       {elapsedMinutes(startedAt)}′
     </span>
   )
