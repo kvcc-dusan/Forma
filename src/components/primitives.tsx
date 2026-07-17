@@ -176,14 +176,14 @@ export function Switch({
       onClick={() => onChange(!checked)}
       className={cn(
         'relative h-8 w-14 shrink-0 rounded-full transition-colors duration-200',
-        checked ? 'bg-accent' : 'bg-secondary',
+        checked ? 'bg-success' : 'bg-secondary',
       )}
     >
       <span
         className={cn(
           'absolute left-1 top-1 h-6 w-6 rounded-full shadow-sm transition-transform duration-200',
           checked
-            ? 'translate-x-6 bg-accent-foreground'
+            ? 'translate-x-6 bg-success-foreground'
             : 'translate-x-0 bg-background',
         )}
       />

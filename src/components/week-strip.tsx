@@ -39,7 +39,7 @@ export function WeekStrip({
             <span
               className={cn(
                 'flex aspect-square w-full max-w-10 items-center justify-center rounded-xl text-[11px] font-semibold',
-                day.status === 'done' && 'bg-accent text-accent-foreground',
+                day.status === 'done' && 'bg-success text-success-foreground',
                 day.status === 'missed' &&
                   'border border-dashed border-border text-muted-foreground',
                 day.status === 'planned' &&

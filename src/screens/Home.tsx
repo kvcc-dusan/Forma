@@ -13,7 +13,6 @@ import {
 import { AppShell } from '@/components/app-shell'
 import { PageHeader } from '@/components/page-header'
 import { SectionHeader, Tag } from '@/components/primitives'
-import { ThemeToggle } from '@/components/theme-toggle'
 import { WeekStrip } from '@/components/week-strip'
 import { DaySheet } from '@/components/day-sheet'
 import { useSessions } from '@/hooks/useStore'
@@ -69,11 +68,7 @@ export function Home() {
   return (
     <AppShell>
       <div className="flex flex-col gap-6">
-        <PageHeader
-          eyebrow={headerDate()}
-          title="Home"
-          actions={<ThemeToggle />}
-        />
+        <PageHeader eyebrow={headerDate()} title="Home" />
 
         {loading || !schedule ? (
           <div className="h-64 animate-pulse rounded-3xl bg-card" />
@@ -281,9 +276,9 @@ function RestCard() {
 
 function DoneCard({ dayName }: { dayName: string }) {
   return (
-    <div className="rounded-3xl border border-accent/40 bg-card p-5">
+    <div className="rounded-3xl border border-success/40 bg-card p-5">
       <div className="flex items-center gap-2.5">
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-accent-foreground">
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-success text-success-foreground">
           <Check className="h-4 w-4" strokeWidth={2.6} />
         </span>
         <div>

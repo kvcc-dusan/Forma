@@ -99,7 +99,7 @@ export function DaySheet({
         {/* body per status */}
         {day.status === 'done' && (
           <p className="flex items-center gap-2 text-[14px] text-muted-foreground">
-            <Check className="h-4 w-4 text-accent" strokeWidth={2.4} />
+            <Check className="h-4 w-4 text-success" strokeWidth={2.4} />
             Logged. The rotation moved on from here.
           </p>
         )}

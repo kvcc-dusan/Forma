@@ -120,9 +120,13 @@ export const deriveSchedule = (
   let lastLiftId: string | null = null
   let prevWasLift = false
   let zone2DoneThisWeek = false
+  let liftsThisWeek = 0
 
   for (let date = start; date <= end; date = addDays(date, 1)) {
-    if (date === mondayOf(date)) zone2DoneThisWeek = false
+    if (date === mondayOf(date)) {
+      zone2DoneThisWeek = false
+      liftsThisWeek = 0
+    }
 
     const log = logs.get(date)
     const isPast = date < todayDate
@@ -132,6 +136,7 @@ export const deriveSchedule = (
       days.set(date, { date, dayId: log.lifting, status: 'done', isToday })
       lastLiftId = log.lifting
       prevWasLift = true
+      liftsThisWeek += 1
       if (log.zone2) zone2DoneThisWeek = true
       continue
     }
@@ -153,11 +158,12 @@ export const deriveSchedule = (
       continue
     }
 
-    // today or future: plan forward
+    // today or future: plan forward. Lifts alternate with genuinely FREE days
+    // (max 3 lifts per Mon–Sun week); Zone 2 only slots once the week's
+    // lifting block is complete, so it never eats the gap between two lifts.
     const postponed = delay !== null && date < delay
-    if (prevWasLift || postponed) {
-      // rest (mandatory or manually chosen); slot Zone 2 if the week needs it
-      if (!zone2DoneThisWeek) {
+    if (prevWasLift || postponed || liftsThisWeek >= 3) {
+      if (liftsThisWeek >= 3 && !zone2DoneThisWeek) {
         days.set(date, { date, dayId: 'zone2', status: 'planned', isToday })
         zone2DoneThisWeek = true
       } else {
@@ -169,6 +175,7 @@ export const deriveSchedule = (
       days.set(date, { date, dayId: nextId, status: 'planned', isToday })
       lastLiftId = nextId
       prevWasLift = true
+      liftsThisWeek += 1
     }
   }
 

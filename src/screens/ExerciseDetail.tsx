@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Dumbbell, Repeat2, Target } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { BackButton } from '@/components/back-button'
-import { ExerciseGlyph } from '@/components/exercise-glyph'
+import { ExerciseGlyph, ExerciseMedia } from '@/components/exercise-glyph'
 import { HeartSafeBlock } from '@/components/heart-safe-block'
 import { MetricPill, Tag } from '@/components/primitives'
 import { getExercise, resolveSubstitutions } from '@/lib/program'
@@ -48,10 +48,11 @@ export function ExerciseDetail() {
   return (
     <AppShell hideNav>
       <div className="flex flex-col gap-7">
-        <div className="flex items-center justify-between pt-1">
+        <div className="pt-1">
           <BackButton />
-          <ExerciseGlyph equipment={exercise.equipment} image={exercise.image} size="md" />
         </div>
+
+        <ExerciseMedia equipment={exercise.equipment} image={exercise.image} />
 
         <div>
           <Tag tone="accent">{titleCase(exercise.pattern)}</Tag>

@@ -9,7 +9,7 @@ import {
 } from '@/lib/program'
 import type { LiveExercise } from '@/lib/live-session'
 import { cn } from '@/lib/utils'
-import { ExerciseGlyph } from './exercise-glyph'
+import { ExerciseGlyph, ExerciseMedia } from './exercise-glyph'
 
 // One exercise inside the live session, read-first: the prescription is the
 // content, the only interaction is one big "done" check (plus optional
@@ -51,7 +51,7 @@ export function LiveExerciseCard({
       className={cn(
         'overflow-hidden rounded-3xl border bg-card transition-colors',
         entry.done
-          ? 'border-accent/40'
+          ? 'border-success/40'
           : isExpanded
             ? 'border-foreground/25'
             : 'border-border',
@@ -64,7 +64,7 @@ export function LiveExerciseCard({
       >
         <span className="w-6 shrink-0 text-center text-[13px] font-medium tabular-nums text-muted-foreground">
           {entry.done ? (
-            <Check className="mx-auto h-4 w-4 text-accent" strokeWidth={2.6} />
+            <Check className="mx-auto h-4 w-4 text-success" strokeWidth={2.6} />
           ) : (
             String(index + 1).padStart(2, '0')
           )}
@@ -93,7 +93,12 @@ export function LiveExerciseCard({
       </button>
 
       {isExpanded && (
-        <div className="border-t border-border px-4 pb-4 pt-3.5">
+        <div className="border-t border-border px-4 pb-4 pt-4">
+          <ExerciseMedia
+            equipment={exercise.equipment}
+            image={exercise.image}
+            className="mb-4 aspect-[16/9]"
+          />
           {/* the prescription, big and readable */}
           <div className="flex items-end justify-between">
             <p className="text-[28px] font-semibold tracking-tight text-card-foreground tabular-nums text-display">
@@ -140,7 +145,7 @@ export function LiveExerciseCard({
               className={cn(
                 'ml-auto flex h-11 flex-1 items-center justify-center gap-2 rounded-full text-[14px] font-semibold transition-colors',
                 entry.done
-                  ? 'bg-accent/15 text-accent'
+                  ? 'bg-success/15 text-success'
                   : 'bg-foreground text-background',
               )}
             >

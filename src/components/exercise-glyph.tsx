@@ -69,3 +69,39 @@ export function ExerciseGlyph({
     </div>
   )
 }
+
+// Large media tile (Exercise Detail hero, session card). Renders the exercise
+// illustration when present; until images land, a calm placeholder tile.
+export function ExerciseMedia({
+  equipment,
+  image,
+  className,
+}: {
+  equipment: Equipment
+  image?: string
+  className?: string
+}) {
+  const Icon = equipmentIcon[equipment] ?? Dumbbell
+  if (image) {
+    return (
+      <img
+        src={image}
+        alt=""
+        className={cn(
+          'aspect-[4/3] w-full rounded-3xl border border-border object-cover',
+          className,
+        )}
+      />
+    )
+  }
+  return (
+    <div
+      className={cn(
+        'flex aspect-[4/3] w-full items-center justify-center rounded-3xl border border-border bg-gradient-to-br from-secondary/70 to-card',
+        className,
+      )}
+    >
+      <Icon className="h-10 w-10 text-muted-foreground/50" strokeWidth={1.2} />
+    </div>
+  )
+}

@@ -57,7 +57,7 @@ export function Train() {
           {loading ? (
             <div className="h-40 animate-pulse rounded-3xl bg-card" />
           ) : todayPlan?.status === 'done' ? (
-            <div className="rounded-3xl border border-accent/40 bg-card p-5">
+            <div className="rounded-3xl border border-success/40 bg-card p-5">
               <p className="text-[15px] font-medium text-card-foreground">
                 Today's session is already logged. ✓
               </p>
