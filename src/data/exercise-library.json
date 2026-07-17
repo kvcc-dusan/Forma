@@ -24,7 +24,8 @@
         "goblet-squat",
         "leg-press",
         "hack-squat"
-      ]
+      ],
+      "image": "/exercises/back-squat.png"
     },
     {
       "id": "front-squat",
@@ -49,7 +50,8 @@
       "substitutions": [
         "leg-press",
         "goblet-squat"
-      ]
+      ],
+      "image": "/exercises/front-squat.png"
     },
     {
       "id": "leg-press",
@@ -73,7 +75,8 @@
       "substitutions": [
         "back-squat",
         "hack-squat"
-      ]
+      ],
+      "image": "/exercises/leg-press.png"
     },
     {
       "id": "romanian-deadlift",
@@ -99,7 +102,8 @@
         "trap-bar-deadlift",
         "hip-thrust",
         "leg-curl"
-      ]
+      ],
+      "image": "/exercises/romanian-deadlift.png"
     },
     {
       "id": "trap-bar-deadlift",
@@ -124,7 +128,8 @@
       "substitutions": [
         "romanian-deadlift",
         "hip-thrust"
-      ]
+      ],
+      "image": "/exercises/trap-bar-deadlift.png"
     },
     {
       "id": "hip-thrust",
@@ -148,7 +153,8 @@
       "substitutions": [
         "romanian-deadlift",
         "leg-curl"
-      ]
+      ],
+      "image": "/exercises/hip-thrust.png"
     },
     {
       "id": "bench-press",
@@ -173,7 +179,8 @@
       "substitutions": [
         "incline-db-press",
         "machine-chest-press"
-      ]
+      ],
+      "image": "/exercises/bench-press.png"
     },
     {
       "id": "incline-bench",
@@ -198,7 +205,8 @@
       "substitutions": [
         "incline-db-press",
         "machine-chest-press"
-      ]
+      ],
+      "image": "/exercises/incline-bench.png"
     },
     {
       "id": "incline-db-press",
@@ -223,7 +231,8 @@
       "substitutions": [
         "incline-bench",
         "machine-chest-press"
-      ]
+      ],
+      "image": "/exercises/incline-db-press.png"
     },
     {
       "id": "overhead-press",
@@ -248,7 +257,8 @@
       "substitutions": [
         "machine-shoulder-press",
         "db-shoulder-press"
-      ]
+      ],
+      "image": "/exercises/overhead-press.png"
     },
     {
       "id": "lat-pulldown",
@@ -273,7 +283,8 @@
       "substitutions": [
         "pull-up",
         "assisted-pull-up"
-      ]
+      ],
+      "image": "/exercises/lat-pulldown.png"
     },
     {
       "id": "pull-up",
@@ -298,7 +309,8 @@
       "substitutions": [
         "assisted-pull-up",
         "lat-pulldown"
-      ]
+      ],
+      "image": "/exercises/pull-up.png"
     },
     {
       "id": "assisted-pull-up",
@@ -323,7 +335,8 @@
       "substitutions": [
         "lat-pulldown",
         "pull-up"
-      ]
+      ],
+      "image": "/exercises/assisted-pull-up.png"
     },
     {
       "id": "barbell-row",
@@ -348,7 +361,8 @@
       "substitutions": [
         "seated-cable-row",
         "chest-supported-row"
-      ]
+      ],
+      "image": "/exercises/barbell-row.png"
     },
     {
       "id": "chest-supported-row",
@@ -373,7 +387,8 @@
       "substitutions": [
         "seated-cable-row",
         "barbell-row"
-      ]
+      ],
+      "image": "/exercises/chest-supported-row.png"
     },
     {
       "id": "seated-cable-row",
@@ -398,7 +413,8 @@
       "substitutions": [
         "chest-supported-row",
         "barbell-row"
-      ]
+      ],
+      "image": "/exercises/seated-cable-row.png"
     },
     {
       "id": "leg-curl",
@@ -419,7 +435,8 @@
       ],
       "substitutions": [
         "romanian-deadlift"
-      ]
+      ],
+      "image": "/exercises/leg-curl.png"
     },
     {
       "id": "lateral-raise",
@@ -440,7 +457,8 @@
       ],
       "substitutions": [
         "machine-lateral-raise"
-      ]
+      ],
+      "image": "/exercises/lateral-raise.png"
     },
     {
       "id": "face-pull",
@@ -462,7 +480,8 @@
       ],
       "substitutions": [
         "rear-delt-fly"
-      ]
+      ],
+      "image": "/exercises/face-pull.png"
     },
     {
       "id": "cable-crunch",
@@ -484,7 +503,8 @@
       "substitutions": [
         "hanging-knee-raise",
         "plank"
-      ]
+      ],
+      "image": "/exercises/cable-crunch.png"
     },
     {
       "id": "hanging-knee-raise",
@@ -507,7 +527,8 @@
       "substitutions": [
         "cable-crunch",
         "plank"
-      ]
+      ],
+      "image": "/exercises/hanging-knee-raise.png"
     },
     {
       "id": "pallof-press",
@@ -529,7 +550,8 @@
       ],
       "substitutions": [
         "plank"
-      ]
+      ],
+      "image": "/exercises/pallof-press.png"
     },
     {
       "id": "plank",
@@ -551,7 +573,8 @@
       "substitutions": [
         "pallof-press",
         "cable-crunch"
-      ]
+      ],
+      "image": "/exercises/plank.png"
     },
     {
       "id": "db-shoulder-press",
@@ -575,7 +598,8 @@
       "substitutions": [
         "machine-shoulder-press",
         "overhead-press"
-      ]
+      ],
+      "image": "/exercises/db-shoulder-press.png"
     },
     {
       "id": "machine-shoulder-press",
@@ -599,7 +623,8 @@
       "substitutions": [
         "db-shoulder-press",
         "overhead-press"
-      ]
+      ],
+      "image": "/exercises/machine-shoulder-press.png"
     },
     {
       "id": "machine-chest-press",
@@ -624,7 +649,8 @@
       "substitutions": [
         "bench-press",
         "incline-db-press"
-      ]
+      ],
+      "image": "/exercises/machine-chest-press.png"
     },
     {
       "id": "triceps-pushdown",
@@ -645,7 +671,8 @@
       ],
       "substitutions": [
         "machine-chest-press"
-      ]
+      ],
+      "image": "/exercises/triceps-pushdown.png"
     },
     {
       "id": "cable-biceps-curl",
@@ -666,7 +693,8 @@
       ],
       "substitutions": [
         "lat-pulldown"
-      ]
+      ],
+      "image": "/exercises/cable-biceps-curl.png"
     },
     {
       "id": "standing-calf-raise",
@@ -687,7 +715,8 @@
       ],
       "substitutions": [
         "leg-press"
-      ]
+      ],
+      "image": "/exercises/standing-calf-raise.png"
     },
     {
       "id": "goblet-squat",
@@ -711,7 +740,8 @@
       "substitutions": [
         "leg-press",
         "back-squat"
-      ]
+      ],
+      "image": "/exercises/goblet-squat.png"
     },
     {
       "id": "hack-squat",
@@ -735,7 +765,8 @@
       "substitutions": [
         "leg-press",
         "back-squat"
-      ]
+      ],
+      "image": "/exercises/hack-squat.png"
     },
     {
       "id": "machine-lateral-raise",
@@ -756,7 +787,8 @@
       ],
       "substitutions": [
         "lateral-raise"
-      ]
+      ],
+      "image": "/exercises/machine-lateral-raise.png"
     },
     {
       "id": "rear-delt-fly",
@@ -778,7 +810,8 @@
       ],
       "substitutions": [
         "face-pull"
-      ]
+      ],
+      "image": "/exercises/rear-delt-fly.png"
     }
   ]
 }

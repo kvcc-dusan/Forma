@@ -10,3 +10,10 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
+
+# raw/working image sources — not shipped. Shipped assets live in
+# public/exercises/. exercise-media/ specifically is rejected licensed
+# stock content (GymVisual via ExerciseDB) and must never be committed.
+exercise-media/
+reimages/
+research-samples/
