@@ -98,8 +98,6 @@
    by hairline borders, not by gray fills. Emerald accent stays restrained. */
 .dark {
   color-scheme: dark;
-  /* Squared-off corners — rounded corners on flat black cards read as cheap. */
-  --radius: 0px;
   --background: oklch(0 0 0);
   --foreground: oklch(0.97 0.003 95);
   --card: oklch(0.155 0.003 80);
