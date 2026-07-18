@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import type { LucideIcon } from 'lucide-react'
 import { Dumbbell, Repeat2, Target } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { BackButton } from '@/components/back-button'
 import { ExerciseGlyph, ExerciseMedia } from '@/components/exercise-glyph'
 import { HeartSafeBlock } from '@/components/heart-safe-block'
-import { MetricPill, Tag } from '@/components/primitives'
+import { Tag } from '@/components/primitives'
 import { getExercise, resolveSubstitutions } from '@/lib/program'
 import {
   readLiveSession,
@@ -14,6 +15,14 @@ import {
 
 const titleCase = (s: string) =>
   s.charAt(0).toUpperCase() + s.slice(1).replace(/-/g, ' ')
+
+// First muscle + a "+N" overflow badge — a value that's always short, so the
+// spec card row height never depends on how many muscles a movement targets.
+const muscleSummary = (muscles: string[]): string => {
+  if (muscles.length === 0) return '—'
+  const [first, ...rest] = muscles
+  return rest.length > 0 ? `${titleCase(first)} +${rest.length}` : titleCase(first)
+}
 
 export function ExerciseDetail() {
   const { id = '' } = useParams()
@@ -61,22 +70,14 @@ export function ExerciseDetail() {
           </h1>
         </div>
 
-        <div className="grid grid-cols-3 gap-3">
-          <MetricPill
+        <div className="flex flex-col divide-y divide-border rounded-3xl border border-border bg-card">
+          <SpecRow
             icon={Target}
             label="Primary"
-            value={exercise.primaryMuscles.map(titleCase).join(', ')}
+            value={muscleSummary(exercise.primaryMuscles)}
           />
-          <MetricPill
-            icon={Dumbbell}
-            label="Kit"
-            value={titleCase(exercise.equipment)}
-          />
-          <MetricPill
-            icon={Repeat2}
-            label="Skill"
-            value={titleCase(exercise.skill)}
-          />
+          <SpecRow icon={Dumbbell} label="Kit" value={titleCase(exercise.equipment)} />
+          <SpecRow icon={Repeat2} label="Skill" value={titleCase(exercise.skill)} />
         </div>
 
         {/* Heart-safe: distinct, always-visible safety block */}
@@ -88,8 +89,8 @@ export function ExerciseDetail() {
           </h2>
           <ol className="flex flex-col gap-3">
             {exercise.cues.map((cue, i) => (
-              <li key={cue} className="flex gap-3">
-                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary text-[12px] font-medium text-secondary-foreground tabular-nums">
+              <li key={cue} className="flex items-start gap-3">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary text-[12px] font-medium text-secondary-foreground tabular-nums">
                   {i + 1}
                 </span>
                 <p className="text-[14px] leading-relaxed text-foreground">
@@ -121,19 +122,19 @@ export function ExerciseDetail() {
                 type="button"
                 disabled={!liveSlot}
                 onClick={() => swap(s.id)}
-                className="flex items-center gap-3.5 p-3.5 text-left transition-colors enabled:hover:bg-secondary/40 disabled:cursor-default"
+                className="flex items-center gap-3.5 p-4 text-left transition-colors enabled:hover:bg-secondary/40 disabled:cursor-default"
               >
                 <ExerciseGlyph equipment={s.equipment} image={s.image} size="sm" />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-[15px] font-medium tracking-tight text-card-foreground">
                     {s.name}
                   </p>
-                  <p className="text-[12px] text-muted-foreground">
+                  <p className="truncate text-[12px] text-muted-foreground">
                     {s.primaryMuscles.map(titleCase).join(' · ')}
                   </p>
                 </div>
                 {liveSlot && (
-                  <span className="text-[12px] font-medium text-accent">
+                  <span className="shrink-0 text-[12px] font-medium text-accent">
                     Swap →
                   </span>
                 )}
@@ -143,5 +144,27 @@ export function ExerciseDetail() {
         </section>
       </div>
     </AppShell>
+  )
+}
+
+function SpecRow({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: LucideIcon
+  label: string
+  value: string
+}) {
+  return (
+    <div className="flex items-center justify-between gap-3 px-4 py-3.5">
+      <span className="flex shrink-0 items-center gap-2 text-[13px] font-medium text-muted-foreground">
+        <Icon className="h-4 w-4" strokeWidth={1.8} />
+        {label}
+      </span>
+      <span className="truncate text-[14px] font-semibold text-card-foreground">
+        {value}
+      </span>
+    </div>
   )
 }

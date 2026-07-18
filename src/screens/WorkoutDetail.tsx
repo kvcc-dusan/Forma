@@ -15,6 +15,7 @@ import {
   isLiftingDay,
   restSecondsFor,
 } from '@/lib/program'
+import { cn } from '@/lib/utils'
 
 // Read-only preview of any program day, reachable from Workouts and the
 // calendar. "Start this workout" works regardless of what the schedule says —
@@ -51,8 +52,13 @@ export function WorkoutDetail() {
         </div>
 
         <div>
-          <Tag tone="accent">{lifting ? focus : 'Cardio'}</Tag>
-          <h1 className="text-display mt-2.5 text-balance text-[30px] font-semibold tracking-tight text-foreground">
+          {!lifting && <Tag tone="accent">Cardio</Tag>}
+          <h1
+            className={cn(
+              'text-display text-balance font-semibold tracking-tight text-foreground',
+              lifting ? 'text-[34px]' : 'mt-2.5 text-[30px]',
+            )}
+          >
             {focus}
           </h1>
           {detail && (

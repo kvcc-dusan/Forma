@@ -11,6 +11,8 @@ import {
   getAllBodyweight,
   getAllSessions,
 } from '@/lib/db'
+import { resetScheduleState } from '@/lib/schedule'
+import { clearLiveSession } from '@/lib/live-session'
 import { useSessions } from '@/hooks/useStore'
 
 export function Settings() {
@@ -34,19 +36,21 @@ export function Settings() {
 
   const wipe = async () => {
     await clearAllData()
+    resetScheduleState()
+    clearLiveSession()
     await reload()
     setConfirming(false)
   }
 
   return (
     <AppShell>
-      <div className="flex flex-col gap-6 pb-4">
+      <div className="flex flex-col gap-5 pb-4">
         <PageHeader eyebrow="Program & data" title="Settings" />
 
         {/* Program */}
         <section className="flex flex-col gap-3">
           <SectionHeader title="Program" />
-          <div className="rounded-3xl border border-border bg-card p-5">
+          <div className="rounded-3xl border border-border bg-card p-4">
             <h3 className="text-[17px] font-semibold tracking-tight text-card-foreground">
               {program.meta.name}
             </h3>

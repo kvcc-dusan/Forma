@@ -80,7 +80,7 @@ export function DaySheet({
               {day.status === 'done'
                 ? `${workout?.name.split(' — ')[0] ?? 'Session'} — done`
                 : day.status === 'missed'
-                  ? 'Missed day'
+                  ? 'Rest day'
                   : workout
                     ? workout.name.split(' — ')[0]
                     : 'Rest day'}
@@ -105,9 +105,9 @@ export function DaySheet({
         )}
 
         {day.status === 'missed' && (
-          <p className="text-[14px] leading-relaxed text-muted-foreground">
-            Nothing was logged this day, so its workout moved forward — it's
-            still in the queue, nothing is lost.
+          <p className="flex items-center gap-2 text-[14px] text-muted-foreground">
+            <BedDouble className="h-4 w-4 text-accent" strokeWidth={1.8} />
+            Nothing logged this day.
           </p>
         )}
 

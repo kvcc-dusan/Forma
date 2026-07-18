@@ -40,12 +40,12 @@ export function MetricPill({
       )}
     >
       <div className="flex items-center gap-1.5 text-muted-foreground">
-        {Icon ? <Icon className="h-[15px] w-[15px]" strokeWidth={1.8} /> : null}
-        <span className="text-[11px] font-medium uppercase tracking-wider">
+        {Icon ? <Icon className="h-[15px] w-[15px] shrink-0" strokeWidth={1.8} /> : null}
+        <span className="truncate text-[11px] font-medium uppercase tracking-wider">
           {label}
         </span>
       </div>
-      <span className="text-balance text-lg font-semibold tracking-tight text-card-foreground">
+      <span className="truncate text-lg font-semibold tracking-tight text-card-foreground">
         {value}
       </span>
     </div>

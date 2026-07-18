@@ -67,6 +67,14 @@ export const clearScheduleDelay = (): void => {
   localStorage.removeItem(DELAY_KEY)
 }
 
+// Wipe every piece of local scheduling state (anchor + delay). Call this
+// alongside clearing session history — otherwise the scheduler keeps walking
+// forward from a stale anchor and every day since looks "missed".
+export const resetScheduleState = (): void => {
+  localStorage.removeItem(ANCHOR_KEY)
+  localStorage.removeItem(DELAY_KEY)
+}
+
 // Monday of the week containing the given date.
 const mondayOf = (dateOnly: string): string => {
   const [y, m, d] = dateOnly.split('-').map(Number)

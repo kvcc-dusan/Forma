@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ChevronRight, Clock, HeartPulse, Layers } from 'lucide-react'
+import { ArrowUpRight, Clock, HeartPulse, Layers } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { PageHeader } from '@/components/page-header'
 import { Tag } from '@/components/primitives'
@@ -9,56 +9,60 @@ import { estimateDayMinutes, program } from '@/lib/program'
 // schedule. Starting one from its detail page pulls the rotation along.
 export function Workouts() {
   return (
-    <AppShell>
-      <div className="flex flex-col gap-6">
+    <AppShell fixed>
+      <div className="shrink-0">
         <PageHeader eyebrow={program.meta.name} title="Workouts" />
+      </div>
 
-        <div className="flex flex-col gap-3">
-          {program.days.map((day) => {
-            const [focus, detail] = day.name.split(' — ')
-            const isCardio = day.type === 'cardio'
-            return (
-              <Link
-                key={day.id}
-                to={`/workout/${day.id}`}
-                className="group rounded-3xl border border-border bg-card p-5 transition-colors hover:border-foreground/20"
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <Tag tone="accent">{isCardio ? 'Cardio' : focus}</Tag>
-                  <ChevronRight
-                    className="h-[18px] w-[18px] text-muted-foreground"
-                    strokeWidth={1.6}
-                  />
+      <div className="flex min-h-0 flex-1 flex-col gap-3">
+        {program.days.map((day) => {
+          const [focus, detail] = day.name.split(' — ')
+          const isCardio = day.type === 'cardio'
+          return (
+            <Link
+              key={day.id}
+              to={`/workout/${day.id}`}
+              className="flex flex-1 items-center gap-3 rounded-3xl border border-border bg-card px-4 transition-colors hover:border-foreground/20"
+            >
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <Tag tone="accent" className="shrink-0">
+                    {isCardio ? 'Cardio' : focus}
+                  </Tag>
+                  <h2 className="truncate text-[17px] font-semibold tracking-tight text-card-foreground">
+                    {focus}
+                  </h2>
                 </div>
-                <h2 className="mt-3 text-[22px] font-semibold tracking-tight text-card-foreground text-display">
-                  {focus}
-                </h2>
                 {detail && (
-                  <p className="mt-1 text-[13px] text-muted-foreground">
+                  <p className="mt-0.5 truncate text-[12px] text-muted-foreground">
                     {detail}
                   </p>
                 )}
-                <div className="mt-4 flex items-center gap-4 text-[12px] text-muted-foreground">
+                <div className="mt-1.5 flex items-center gap-3 text-[12px] text-muted-foreground">
                   {isCardio ? (
                     <span className="inline-flex items-center gap-1.5">
-                      <HeartPulse className="h-[15px] w-[15px]" strokeWidth={1.8} />
+                      <HeartPulse className="h-[14px] w-[14px]" strokeWidth={1.8} />
                       steady-state
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-1.5">
-                      <Layers className="h-[15px] w-[15px]" strokeWidth={1.8} />
+                      <Layers className="h-[14px] w-[14px]" strokeWidth={1.8} />
                       {day.exercises.length} exercises
                     </span>
                   )}
                   <span className="inline-flex items-center gap-1.5">
-                    <Clock className="h-[15px] w-[15px]" strokeWidth={1.8} />~
+                    <Clock className="h-[14px] w-[14px]" strokeWidth={1.8} />~
                     {estimateDayMinutes(day)} min
                   </span>
                 </div>
-              </Link>
-            )
-          })}
-        </div>
+              </div>
+              <ArrowUpRight
+                className="h-4 w-4 shrink-0 text-muted-foreground"
+                strokeWidth={1.8}
+              />
+            </Link>
+          )
+        })}
       </div>
     </AppShell>
   )
