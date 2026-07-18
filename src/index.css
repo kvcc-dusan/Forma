@@ -98,6 +98,8 @@
    by hairline borders, not by gray fills. Emerald accent stays restrained. */
 .dark {
   color-scheme: dark;
+  /* Squared-off corners — rounded corners on flat black cards read as cheap. */
+  --radius: 0px;
   --background: oklch(0 0 0);
   --foreground: oklch(0.97 0.003 95);
   --card: oklch(0.155 0.003 80);
@@ -113,7 +115,9 @@
   --accent: oklch(0.97 0.003 95);
   --accent-foreground: oklch(0.1 0.003 80);
   --destructive: oklch(0.64 0.17 25);
-  --border: oklch(1 0 0 / 12%);
+  /* AMOLED look: hairline card borders read as cheap — cards are told apart
+     by the card/background color step alone, no stroke. */
+  --border: oklch(1 0 0 / 0%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.97 0.003 95);
   --chart-1: oklch(0.97 0.003 95);
@@ -151,8 +155,21 @@
   * {
     @apply border-border outline-ring/50;
   }
+  /* The document itself never scrolls or rubber-bands — every screen owns its
+     own scroll region (see AppShell). Without this, installed PWAs (no browser
+     chrome to eat the safe-area/viewport rounding) can reveal a few px of real
+     page scroll that never shows up in a browser tab. */
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
   body {
     @apply bg-background text-foreground;
+  }
+  #root {
+    height: 100%;
   }
   html {
     @apply font-sans;

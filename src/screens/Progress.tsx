@@ -35,7 +35,7 @@ export function Progress() {
 
   return (
     <AppShell>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-4">
         <PageHeader
           eyebrow={`${sessionCount} session${sessionCount === 1 ? '' : 's'} logged`}
           title="Progress"
@@ -59,7 +59,7 @@ export function Progress() {
               emptyHint="Complete a few sessions to see your adherence."
             />
 
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <LineCard
                 title="Energy"
                 data={energy}

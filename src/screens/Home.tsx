@@ -71,33 +71,31 @@ export function Home() {
 
   return (
     <AppShell fixed>
-      <h1 className="shrink-0 text-display text-balance text-[32px] font-semibold tracking-tight text-foreground">
-        {headerDate()}
-      </h1>
+      <div className="shrink-0">
+        <h1 className="text-display text-balance text-[32px] font-semibold tracking-tight text-foreground">
+          {headerDate()}
+        </h1>
+        <p className="mt-1.5 text-[13px] font-medium text-muted-foreground">
+          This week · {weekLiftsDone}/3 lifts · {weekZone2Done ? '1' : '0'}/1
+          cardio
+        </p>
+      </div>
 
       {loading || !schedule ? (
         <div className="flex-1 animate-pulse rounded-3xl bg-card" />
       ) : (
         <>
           {/* This week */}
-          <section className="shrink-0 rounded-3xl border border-border bg-card p-4">
-            <div className="mb-3 flex items-baseline justify-between">
-              <h2 className="text-[11px] font-medium uppercase tracking-label text-muted-foreground">
-                This week
-              </h2>
-              <span className="text-[11px] font-medium text-muted-foreground">
-                {weekLiftsDone}/3 lifts · {weekZone2Done ? '1' : '0'}/1 cardio
-              </span>
-            </div>
+          <section className="shrink-0 rounded-3xl border border-border bg-card px-4 py-5">
             <WeekStrip week={schedule.week} onDayTap={setSelectedDay} />
           </section>
 
-          {/* Today — the dominant card */}
-          <section className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-3xl border border-border bg-card">
-            <h2 className="shrink-0 px-5 pt-4 text-[11px] font-medium uppercase tracking-label text-muted-foreground">
+          {/* Today — sized to its own content, never stretched to fill */}
+          <section className="min-h-0 shrink-0 overflow-y-auto rounded-3xl border border-border bg-card p-5">
+            <h2 className="text-[11px] font-medium uppercase tracking-label text-muted-foreground">
               Today
             </h2>
-            <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pb-5 pt-2">
+            <div className="mt-2 flex flex-col">
               {trainedToday ? (
                 <DoneContent dayName={todayDay?.name ?? 'Session'} />
               ) : todayDay && isLiftingDay(todayDay) ? (
@@ -116,12 +114,12 @@ export function Home() {
             </div>
           </section>
 
-          {/* Up next — a single compact row */}
+          {/* Up next — a single compact row, anchored to the bottom */}
           {nextUp && (
             <button
               type="button"
               onClick={() => setSelectedDay(nextUp)}
-              className="flex shrink-0 items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 text-left"
+              className="mt-auto flex shrink-0 items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 text-left"
             >
               <span className="text-[11px] font-medium uppercase tracking-label text-muted-foreground">
                 Up next

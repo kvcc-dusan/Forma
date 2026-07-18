@@ -27,7 +27,7 @@ export function WeekStrip({
   onDayTap?: (day: PlannedDay) => void
 }) {
   return (
-    <div className="grid grid-cols-7 gap-1.5">
+    <div className="grid grid-cols-7 gap-2">
       {week.map((day, i) => (
         <button
           type="button"
@@ -35,14 +35,19 @@ export function WeekStrip({
           data-status={day.status}
           data-day={day.dayId ?? ''}
           onClick={() => onDayTap?.(day)}
-          className="flex flex-col items-center gap-1.5"
+          className="flex flex-col items-center gap-2"
         >
-          <span className="text-[10px] font-medium text-muted-foreground">
+          <span
+            className={cn(
+              'text-[11px] font-medium',
+              day.isToday ? 'text-foreground' : 'text-muted-foreground',
+            )}
+          >
             {DAY_LETTERS[i]}
           </span>
           <span
             className={cn(
-              'flex aspect-square w-full max-w-10 items-center justify-center rounded-xl text-[11px] font-semibold',
+              'flex aspect-square w-full items-center justify-center rounded-xl text-[13px] font-semibold',
               day.status === 'done' && 'bg-success text-success-foreground',
               day.status === 'planned' &&
                 !day.isToday &&
@@ -63,14 +68,6 @@ export function WeekStrip({
             ) : (
               dayLabel(day.dayId)
             )}
-          </span>
-          <span
-            className={cn(
-              'text-[9px] leading-none',
-              day.isToday ? 'font-semibold text-foreground' : 'text-transparent',
-            )}
-          >
-            today
           </span>
         </button>
       ))}

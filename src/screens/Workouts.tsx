@@ -14,7 +14,7 @@ export function Workouts() {
         <PageHeader eyebrow={program.meta.name} title="Workouts" />
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col gap-3">
+      <div className="flex min-h-0 flex-1 flex-col justify-center gap-3">
         {program.days.map((day) => {
           const [focus, detail] = day.name.split(' — ')
           const isCardio = day.type === 'cardio'
@@ -22,7 +22,7 @@ export function Workouts() {
             <Link
               key={day.id}
               to={`/workout/${day.id}`}
-              className="flex flex-1 items-center gap-3 rounded-3xl border border-border bg-card px-4 transition-colors hover:border-foreground/20"
+              className="flex items-center gap-3 rounded-3xl border border-border bg-card px-4 py-4 transition-colors hover:border-foreground/20"
             >
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
