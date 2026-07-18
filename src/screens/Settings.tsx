@@ -50,7 +50,7 @@ export function Settings() {
         {/* Program */}
         <section className="flex flex-col gap-3">
           <SectionHeader title="Program" />
-          <div className="rounded-3xl border border-border bg-card p-4">
+          <div className="rounded-3xl bg-card p-4">
             <h3 className="text-[17px] font-semibold tracking-tight text-card-foreground">
               {program.meta.name}
             </h3>
@@ -86,7 +86,7 @@ export function Settings() {
           <button
             type="button"
             onClick={toggle}
-            className="flex items-center justify-between rounded-2xl border border-border bg-card p-4 text-left"
+            className="flex items-center justify-between rounded-2xl bg-card p-4 text-left"
           >
             <span className="text-[14px] font-medium text-card-foreground">
               Theme
@@ -112,7 +112,7 @@ export function Settings() {
           <button
             type="button"
             onClick={exportData}
-            className="flex items-center gap-2.5 rounded-2xl border border-border bg-card p-4 text-left transition-colors hover:bg-secondary/40"
+            className="flex items-center gap-2.5 rounded-2xl bg-card p-4 text-left transition-colors hover:bg-secondary/40"
           >
             <Download className="h-[18px] w-[18px] text-muted-foreground" />
             <span className="text-[14px] font-medium text-card-foreground">
@@ -124,7 +124,7 @@ export function Settings() {
             <button
               type="button"
               onClick={() => setConfirming(true)}
-              className="flex items-center gap-2.5 rounded-2xl border border-border bg-card p-4 text-left transition-colors hover:bg-destructive/10"
+              className="flex items-center gap-2.5 rounded-2xl bg-card p-4 text-left transition-colors hover:bg-destructive/10"
             >
               <Trash2 className="h-[18px] w-[18px] text-destructive" />
               <span className="text-[14px] font-medium text-destructive">
@@ -132,7 +132,7 @@ export function Settings() {
               </span>
             </button>
           ) : (
-            <div className="flex flex-col gap-2 rounded-2xl border border-destructive/30 bg-destructive/10 p-4">
+            <div className="flex flex-col gap-2 rounded-2xl bg-destructive/10 p-4">
               <p className="text-[13px] text-foreground">
                 Delete all sessions and bodyweight entries? This can't be undone.
               </p>

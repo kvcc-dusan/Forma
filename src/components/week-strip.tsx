@@ -47,7 +47,7 @@ export function WeekStrip({
           </span>
           <span
             className={cn(
-              'flex aspect-square w-full items-center justify-center rounded-xl text-[13px] font-semibold',
+              'flex size-9 items-center justify-center rounded-lg text-[12px] font-semibold',
               day.status === 'done' && 'bg-success text-success-foreground',
               day.status === 'planned' &&
                 !day.isToday &&
@@ -57,8 +57,7 @@ export function WeekStrip({
                 'bg-secondary/40 text-muted-foreground/50',
               day.isToday &&
                 day.status !== 'done' &&
-                'border-[1.5px] border-foreground bg-background text-foreground',
-              day.isToday && day.status === 'done' && 'ring-2 ring-foreground/40',
+                'bg-foreground text-background',
             )}
           >
             {day.status === 'done' ? (

@@ -31,7 +31,7 @@ export function LineCard({
   const latest = data.length > 0 ? data[data.length - 1].value : null
 
   return (
-    <div className="rounded-3xl border border-border bg-card p-5">
+    <div className="rounded-3xl bg-card p-5">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-[11px] font-medium uppercase tracking-label text-muted-foreground">

@@ -56,7 +56,7 @@ export function WorkoutDetail() {
           <h1
             className={cn(
               'text-display text-balance font-semibold tracking-tight text-foreground',
-              lifting ? 'text-[34px]' : 'mt-2.5 text-[30px]',
+              lifting ? 'text-[34px]' : 'mt-2.5 text-[34px]',
             )}
           >
             {focus}
@@ -94,7 +94,7 @@ export function WorkoutDetail() {
               <h2 className="text-[11px] font-medium uppercase tracking-label text-muted-foreground">
                 Exercises
               </h2>
-              <div className="flex flex-col divide-y divide-border rounded-3xl border border-border bg-card">
+              <div className="flex flex-col divide-y divide-border rounded-3xl bg-card">
                 {day.exercises.map((dx, i) => {
                   const exercise = getExercise(dx.exerciseId)
                   if (!exercise) return null
@@ -131,7 +131,7 @@ export function WorkoutDetail() {
           </>
         ) : (
           <>
-            <div className="rounded-3xl border border-border bg-card p-5">
+            <div className="rounded-3xl bg-card p-5">
               <p className="text-pretty text-[15px] leading-relaxed text-card-foreground">
                 {day.guidance}
               </p>

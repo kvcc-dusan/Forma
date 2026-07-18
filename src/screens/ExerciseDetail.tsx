@@ -70,7 +70,7 @@ export function ExerciseDetail() {
           </h1>
         </div>
 
-        <div className="flex flex-col divide-y divide-border rounded-3xl border border-border bg-card">
+        <div className="flex flex-col divide-y divide-border rounded-3xl bg-card">
           <SpecRow
             icon={Target}
             label="Primary"
@@ -90,7 +90,7 @@ export function ExerciseDetail() {
           <ol className="flex flex-col gap-3">
             {exercise.cues.map((cue, i) => (
               <li key={cue} className="flex items-start gap-3">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary text-[12px] font-medium text-secondary-foreground tabular-nums">
+                <span className="flex size-6 shrink-0 items-center justify-center rounded-lg bg-secondary text-[12px] font-medium text-secondary-foreground tabular-nums">
                   {i + 1}
                 </span>
                 <p className="text-[14px] leading-relaxed text-foreground">
@@ -110,7 +110,7 @@ export function ExerciseDetail() {
               Swapping applies during an active session.
             </p>
           )}
-          <div className="flex flex-col divide-y divide-border rounded-3xl border border-border bg-card">
+          <div className="flex flex-col divide-y divide-border rounded-3xl bg-card">
             {subOptions.length === 0 && (
               <p className="p-4 text-[13px] text-muted-foreground">
                 No catalogued substitutions for this movement.

@@ -67,7 +67,7 @@ export function FinishSurvey({
         onClick={onCancel}
         className="fixed inset-0 bg-background/70 backdrop-blur-sm"
       />
-      <div className="no-scrollbar relative z-10 max-h-[88dvh] w-full max-w-lg overflow-y-auto rounded-t-[2rem] border-t border-border bg-card px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-4 duration-300 animate-in slide-in-from-bottom md:max-h-[80vh] md:rounded-3xl md:border md:pb-6">
+      <div className="no-scrollbar relative z-10 max-h-[88dvh] w-full max-w-lg overflow-y-auto rounded-t-[2rem] bg-card px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-4 duration-300 animate-in slide-in-from-bottom md:max-h-[80vh] md:rounded-3xl md:pb-6">
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-border md:hidden" />
         <div className="mb-5 flex items-center justify-between">
           <h2 className="text-[20px] font-semibold tracking-tight text-card-foreground">
@@ -136,7 +136,7 @@ function FieldView({
   if (field.type === 'boolean') {
     const on = Boolean(values[field.key])
     return (
-      <section className="flex items-center justify-between gap-4 rounded-2xl border border-border bg-background p-4">
+      <section className="flex items-center justify-between gap-4 rounded-2xl bg-background p-4">
         <span className="text-[14px] font-medium text-foreground">
           {field.label}
         </span>

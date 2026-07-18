@@ -49,12 +49,8 @@ export function LiveExerciseCard({
   return (
     <div
       className={cn(
-        'overflow-hidden rounded-3xl border bg-card transition-colors',
-        entry.done
-          ? 'border-success/40'
-          : isExpanded
-            ? 'border-foreground/25'
-            : 'border-border',
+        'overflow-hidden rounded-3xl transition-colors',
+        entry.done ? 'bg-success/10' : 'bg-card',
       )}
     >
       <button
@@ -155,7 +151,7 @@ export function LiveExerciseCard({
           </div>
 
           {isPicking && (
-            <div className="mt-3 flex flex-col gap-1 rounded-2xl border border-border bg-background p-2">
+            <div className="mt-3 flex flex-col gap-1 rounded-2xl bg-background p-2">
               {isSwapped && (
                 <SubOption
                   id={entry.originalId}

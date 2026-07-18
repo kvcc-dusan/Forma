@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 
 // A deliberately distinct, always-visible safety block. Used on Exercise Detail
 // to surface the per-exercise `heartSafe` notes, and reusable for the global
-// constraints. Amber "safe" palette keeps it separate from accent and error.
+// constraints. Red "safe" palette keeps it separate from accent and error.
 export function HeartSafeBlock({
   notes,
   title = 'Heart-safe',
@@ -19,7 +19,7 @@ export function HeartSafeBlock({
   return (
     <div
       className={cn(
-        'rounded-2xl border border-safe/30 bg-safe-surface/60 p-4',
+        'rounded-2xl bg-safe-surface/60 p-4',
         className,
       )}
     >

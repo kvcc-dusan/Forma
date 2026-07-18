@@ -7,7 +7,7 @@ import { program } from '@/lib/program'
 export function WarmupCard() {
   const { cardioMin, cardioNote, rampSets } = program.warmup
   return (
-    <div className="rounded-2xl border border-border bg-card p-4">
+    <div className="rounded-2xl bg-card p-4">
       <div className="mb-2 flex items-center gap-2">
         <Flame className="h-[17px] w-[17px] text-accent" strokeWidth={2} />
         <h3 className="text-[12px] font-semibold uppercase tracking-label text-card-foreground">
@@ -27,7 +27,7 @@ export function WarmupCard() {
 export function CooldownCard() {
   const { cooldownMin, cooldownNote } = program.warmup
   return (
-    <div className="rounded-2xl border border-border bg-card p-4">
+    <div className="rounded-2xl bg-card p-4">
       <div className="mb-2 flex items-center gap-2">
         <Snowflake className="h-[17px] w-[17px] text-accent" strokeWidth={2} />
         <h3 className="text-[12px] font-semibold uppercase tracking-label text-card-foreground">

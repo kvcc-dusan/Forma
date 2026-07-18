@@ -85,13 +85,13 @@ export function Home() {
         <div className="flex-1 animate-pulse rounded-3xl bg-card" />
       ) : (
         <>
-          {/* This week */}
-          <section className="shrink-0 rounded-3xl border border-border bg-card px-4 py-5">
+          {/* This week — bare strip under the header, no card */}
+          <section className="shrink-0 px-1 pt-2">
             <WeekStrip week={schedule.week} onDayTap={setSelectedDay} />
           </section>
 
           {/* Today — sized to its own content, never stretched to fill */}
-          <section className="min-h-0 shrink-0 overflow-y-auto rounded-3xl border border-border bg-card p-5">
+          <section className="min-h-0 shrink-0 overflow-y-auto rounded-3xl bg-card p-5">
             <h2 className="text-[11px] font-medium uppercase tracking-label text-muted-foreground">
               Today
             </h2>
@@ -119,7 +119,7 @@ export function Home() {
             <button
               type="button"
               onClick={() => setSelectedDay(nextUp)}
-              className="mt-auto flex shrink-0 items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 text-left"
+              className="mt-auto flex shrink-0 items-center gap-3 rounded-2xl bg-card px-4 py-3 text-left"
             >
               <span className="text-[11px] font-medium uppercase tracking-label text-muted-foreground">
                 Up next

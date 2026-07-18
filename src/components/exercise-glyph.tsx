@@ -50,7 +50,7 @@ export function ExerciseGlyph({
         src={image}
         alt=""
         className={cn(
-          'shrink-0 rounded-2xl border border-border object-cover',
+          'shrink-0 rounded-2xl object-cover',
           sizeClass[size],
           className,
         )}
@@ -60,7 +60,7 @@ export function ExerciseGlyph({
   return (
     <div
       className={cn(
-        'relative flex shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-secondary to-card text-muted-foreground',
+        'relative flex shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-secondary to-card text-muted-foreground',
         sizeClass[size],
         className,
       )}
@@ -88,7 +88,7 @@ export function ExerciseMedia({
         src={image}
         alt=""
         className={cn(
-          'aspect-[4/3] w-full rounded-3xl border border-border object-cover',
+          'aspect-[4/3] w-full rounded-3xl object-cover',
           className,
         )}
       />
@@ -97,7 +97,7 @@ export function ExerciseMedia({
   return (
     <div
       className={cn(
-        'flex aspect-[4/3] w-full items-center justify-center rounded-3xl border border-border bg-gradient-to-br from-secondary/70 to-card',
+        'flex aspect-[4/3] w-full items-center justify-center rounded-3xl bg-gradient-to-br from-secondary/70 to-card',
         className,
       )}
     >

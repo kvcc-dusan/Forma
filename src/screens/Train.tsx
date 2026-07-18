@@ -57,7 +57,7 @@ export function Train() {
           {loading ? (
             <div className="h-40 animate-pulse rounded-3xl bg-card" />
           ) : todayPlan?.status === 'done' ? (
-            <div className="rounded-3xl border border-success/40 bg-card p-5">
+            <div className="rounded-3xl bg-card p-5">
               <p className="text-[15px] font-medium text-card-foreground">
                 Today's session is already logged. ✓
               </p>
@@ -66,7 +66,7 @@ export function Train() {
               </p>
             </div>
           ) : nextDay ? (
-            <div className="rounded-3xl border border-border bg-card p-5">
+            <div className="rounded-3xl bg-card p-5">
               <Tag tone="accent">
                 {todayPlan?.status === 'planned' ? 'Planned today' : 'Next up'}
               </Tag>
@@ -278,7 +278,7 @@ export function Train() {
             onClick={() => setConfirmExit(false)}
             className="fixed inset-0 bg-background/70 backdrop-blur-sm"
           />
-          <div className="relative z-10 w-full max-w-sm rounded-3xl border border-border bg-card p-5">
+          <div className="relative z-10 w-full max-w-sm rounded-3xl bg-card p-5">
             <h3 className="text-[17px] font-semibold tracking-tight text-card-foreground">
               Leave this session?
             </h3>
@@ -328,7 +328,7 @@ function SessionClock({ startedAt }: { startedAt: string }) {
 function CardioSession({ day }: { day: CardioDay }) {
   return (
     <>
-      <div className="rounded-3xl border border-border bg-card p-5 text-center">
+      <div className="rounded-3xl bg-card p-5 text-center">
         <p className="text-[11px] uppercase tracking-label text-muted-foreground">
           Target
         </p>
@@ -341,7 +341,7 @@ function CardioSession({ day }: { day: CardioDay }) {
         </p>
       </div>
 
-      <div className="rounded-3xl border border-border bg-card p-5">
+      <div className="rounded-3xl bg-card p-5">
         <p className="text-pretty text-[15px] leading-relaxed text-card-foreground">
           {day.guidance}
         </p>

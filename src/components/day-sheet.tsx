@@ -68,7 +68,7 @@ export function DaySheet({
         onClick={onClose}
         className="fixed inset-0 bg-background/70 backdrop-blur-sm"
       />
-      <div className="relative z-10 w-full max-w-lg rounded-t-[1.75rem] border-t border-border bg-card px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-4 duration-300 animate-in slide-in-from-bottom md:rounded-3xl md:border md:pb-6">
+      <div className="relative z-10 w-full max-w-lg rounded-t-[1.75rem] bg-card px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-4 duration-300 animate-in slide-in-from-bottom md:rounded-3xl md:pb-6">
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-border md:hidden" />
         <div className="mb-4 flex items-start justify-between gap-3">
           <div>

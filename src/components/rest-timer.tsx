@@ -49,7 +49,7 @@ export function RestTimer({
         onClick={onClose}
         className="fixed inset-0 bg-background/70 backdrop-blur-sm"
       />
-      <div className="relative z-10 w-full rounded-t-[2rem] border-t border-border bg-card px-6 pb-10 pt-4 duration-300 animate-in slide-in-from-bottom">
+      <div className="relative z-10 w-full rounded-t-[2rem] bg-card px-6 pb-10 pt-4 duration-300 animate-in slide-in-from-bottom">
         <div className="mx-auto mb-6 h-1 w-10 rounded-full bg-border" />
         <div className="flex items-center justify-between">
           <p className="text-[11px] font-medium uppercase tracking-label text-muted-foreground">

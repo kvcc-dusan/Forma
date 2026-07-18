@@ -35,7 +35,7 @@ export function MetricPill({
   return (
     <div
       className={cn(
-        'flex flex-col gap-2 rounded-2xl border border-border bg-card p-4',
+        'flex flex-col gap-2 rounded-2xl bg-card p-4',
         className,
       )}
     >
